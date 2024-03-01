@@ -1,44 +1,87 @@
-import { PrismaClient } from '@prisma/client';
+import { fakerHU as faker } from '@faker-js/faker';
+import { PrismaClient, QuestionState } from '@prisma/client';
+
+faker.seed(42);
 
 const prisma = new PrismaClient();
 
-async function main() {
-  const pres1 = await prisma.presentation.create({
-    data: {
-      title: 'Example presentation 1',
-      speaker_fullname: 'Alice Bob',
-      room: 'room 1',
-      start_time: new Date('2021-10-10T10:00:00'),
-      end_time: new Date('2021-10-10T11:00:00'),
-    },
-  });
-  console.log(pres1.title, pres1);
-  const pres2 = await prisma.presentation.create({
-    data: {
-      title: 'Example presentation 2',
-      speaker_fullname: 'Charlie Dole',
-      room: 'room 2',
-      start_time: new Date('2021-10-10T10:00:00'),
-      end_time: new Date('2021-10-10T12:00:00'),
-    },
-  });
-  console.log(pres2.title, pres2);
-
-    const marked = new Set([1, 5, 6]);
-    const
-
-  for (let i = 0; i < 10; i++) {
-    await prisma.question.create({
-      data: {
-        content: `Question ${i}`,
-        presentationId: i % 2 === 0 ? pres1.id : pres2.id,
-        userId: (i % 4).toString(),
-      },
-    });
+/**
+ * Generate a list of available slots around a reference time
+ *
+ * @param halfN half number of slots
+ * @param refTime median time
+ * @param rooms array of room names
+ */
+function roomSlots({
+  halfN,
+  refTime = new Date(),
+  rooms = ['IB-208', 'IB-205'],
+}: {
+  halfN: number;
+  refTime?: Date;
+  rooms?: string[];
+}) {
+  const result = [];
+  const now = new Date(refTime).setMinutes(0, 0, 0);
+  const MS_IN_HALF_HOUR = 30 * 60 * 1000;
+  for (let halfHours = -halfN; halfHours < halfN; halfHours++) {
+    const start = +now + halfHours * MS_IN_HALF_HOUR;
+    for (const room of rooms) {
+      result.push({ start, end: start + MS_IN_HALF_HOUR, room });
+    }
   }
-
-  [1, 5, 6];
+  return result;
 }
+
+async function main() {
+  const presentationsData = faker.helpers
+    .arrayElements(roomSlots({ halfN: 8 }), 15)
+    .map(({ start, end, room }) => ({
+      title: faker.word.words(5),
+      start: new Date(start),
+      end: new Date(end),
+      presenterFullName: faker.person.fullName(),
+      room,
+    }));
+
+  await prisma.presentations.createMany({ data: presentationsData });
+  const presentations = await prisma.presentations.findMany();
+
+  const askers = faker.helpers
+    .multiple(faker.number.int, { count: 12 })
+    .map((x) => `user-${x}`);
+
+  await prisma.askers.createMany({ data: askers.map((id) => ({ id })) });
+
+  const questions = [];
+  for (const presentation of presentations) {
+    if (presentation.start > new Date()) continue;
+    const askerIds = faker.helpers.arrayElements(askers, 12);
+    for (const askerId of askerIds) {
+      if (faker.number.int({ min: 0, max: 2 }) === 0) continue;
+      questions.push({
+        content: faker.lorem.sentence({ min: 1, max: 30 }),
+        askerId: askerId,
+        presentationId: presentation.id,
+        mark: faker.helpers.maybe(
+          () => faker.helpers.arrayElement(['MARKED', 'BLACKLISTED']),
+          { probability: 0.3 },
+        ) as QuestionState | undefined,
+      });
+    }
+  }
+  await prisma.questions.createMany({ data: questions });
+
+  await prisma.askers.updateMany({
+    data: {
+      blacklistedAt: new Date(),
+    },
+    where: {
+      id: { in: faker.helpers.arrayElements(askers, 3) },
+    },
+  });
+}
+
 main()
   .then(async () => {
     await prisma.$disconnect();

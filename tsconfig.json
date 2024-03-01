@@ -118,6 +118,9 @@
       "@/*": ["./*"]
     }
   },
+  "ts-node": {
+    "compilerOptions": {"module": "commonjs"}
+  },
   "include": [
     "next-env.d.ts",
     "**/*.ts",

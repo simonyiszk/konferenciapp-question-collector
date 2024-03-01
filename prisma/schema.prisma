@@ -14,12 +14,12 @@ datasource db {
 }
 
 model Presentations {
-  id                String      @id @default(uuid())
+  id                Int         @id @default(autoincrement())
   title             String      @unique
   start             DateTime
   end               DateTime
   room              String
-  presenterFullname String
+  presenterFullName String
   presenterAvatar   String?
   Question          Questions[]
 
@@ -43,12 +43,12 @@ enum QuestionState {
 }
 
 model Questions {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
 
   askerId String
   asker   Askers @relation(fields: [askerId], references: [id])
 
-  presentationId String
+  presentationId Int
   presentation   Presentations @relation(fields: [presentationId], references: [id])
 
   content   String

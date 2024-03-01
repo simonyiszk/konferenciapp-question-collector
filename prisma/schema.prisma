@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model Presentations {
+  id                String      @id @default(uuid())
+  title             String      @unique
+  start             DateTime
+  end               DateTime
+  room              String
+  presenterFullname String
+  presenterAvatar   String?
+  Question          Questions[]
+
+  @@unique([start, room])
+  @@unique([end, room])
+  @@index([start])
+}
+
+model Askers {
+  id            String      @id @unique
+  createdAt     DateTime    @default(now())
+  blacklistedAt DateTime?
+  Question      Questions[]
+
+  @@index([blacklistedAt])
+}
+
+enum QuestionState {
+  MARKED
+  BLACKLISTED
+}
+
+model Questions {
+  id String @id @default(uuid())
+
+  askerId String
+  asker   Askers @relation(fields: [askerId], references: [id])
+
+  presentationId String
+  presentation   Presentations @relation(fields: [presentationId], references: [id])
+
+  content   String
+  mark      QuestionState?
+  createdAt DateTime       @default(now())
+
+  @@unique([presentationId, content])
+  @@index([presentationId, createdAt])
+  @@index([presentationId, mark, createdAt])
+}

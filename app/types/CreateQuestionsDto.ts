@@ -1,4 +1,4 @@
-import { plainToInstance, Transform } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { IsInt, IsNotEmpty } from 'class-validator';
 
 export interface CreateQuestionDto {
@@ -14,10 +14,9 @@ export class CreateQuestionInput {
   userId!: string;
 
   // From slug
-  @Transform(({ value }) => Number.parseInt(value, 10))
   @IsNotEmpty()
   @IsInt()
-  presentationId!: number;
+  presentationId!: string;
 
   static fromPlain(plain: CreateQuestionDto) {
     return plainToInstance(CreateQuestionInput, plain);

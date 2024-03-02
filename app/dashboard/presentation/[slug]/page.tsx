@@ -6,15 +6,11 @@ import { lusitana } from '@/app/ui/fonts';
 export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
+  const id = params.slug;
 
-  if (
-    typeof slug !== 'string' ||
-    !Number.isInteger(Number.parseInt(slug, 10))
-  ) {
+  if (!id) {
     throw new Error('Invalid presentation id');
   }
-  const id = Number.parseInt(slug, 10);
   const presentation = await prisma.presentation.findUnique({
     where: { id },
     include: {

@@ -12,7 +12,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const id = Number.parseInt(slug);
   const presentation = await prisma.presentation.findUnique({
     where: { id },
-    include: { questions: { orderBy: { createdAt: 'asc' } } },
+    include: {
+      questions: {
+        orderBy: { createdAt: 'asc' },
+        include: { user: true },
+        where: { user: { blacklistedAt: null } },
+      },
+    },
   });
   if (!presentation) throw new Error('Invalid presentation id');
   const live =

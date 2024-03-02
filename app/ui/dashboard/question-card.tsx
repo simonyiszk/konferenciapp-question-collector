@@ -1,7 +1,7 @@
-'use client';
-import { StarIcon } from '@heroicons/react/24/outline';
-import { Question } from '@prisma/client';
+import { StarIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { Question, QuestionState } from '@prisma/client';
 
+import { setQuestionMark } from '@/app/lib/server/actions';
 import { lusitana } from '@/app/ui/fonts';
 
 export interface QuestionCardProps
@@ -9,30 +9,47 @@ export interface QuestionCardProps
   question: Question;
 }
 
-export function QuestionCard({
-  question: Question,
-  ...rest
-}: QuestionCardProps) {
-  const Icon = Question.mark === 'SELECTED' ? StarIcon : null;
+export function QuestionCard({ question, ...rest }: QuestionCardProps) {
+  const isSelected = question.mark === QuestionState.SELECTED;
+  const isHidden = question.mark === QuestionState.HIDDEN;
+
   return (
     <div
-      onClick={() => {
-        alert('question ' + Question.id);
-      }}
       {...rest}
       className={' rounded-xl bg-gray-50 p-2 shadow-sm ' + rest.className}
     >
-      <div className="flex p-4">
-        {Icon ? <Icon className="h-5 w-5 text-gray-700" /> : null}
-        <h3 className="ml-2 text-sm font-medium">
-          #{Question.id} from {Question.userId.slice(0, 10)}
+      <div className="flex justify-between p-4">
+        <h3 className="ml-2 overflow-x-hidden text-sm font-medium">
+          {question.userId}
         </h3>
+
+        <form action={setQuestionMark} className="flex space-x-1.5">
+          <input type="hidden" name="id" value={question.id} />
+          <button
+            title="elrejtés"
+            type="submit"
+            name="mark"
+            value={isHidden ? QuestionState.NONE : QuestionState.HIDDEN}
+            className={isHidden ? ' text-red-400' : ''}
+          >
+            <TrashIcon className="h-5 w-5" />
+          </button>
+          <button
+            title="megjelölés"
+            type="submit"
+            name="mark"
+            value={isSelected ? QuestionState.NONE : QuestionState.SELECTED}
+            className={isSelected ? ' text-yellow-400' : ''}
+          >
+            <StarIcon className="h-5 w-5" />
+          </button>
+        </form>
       </div>
       <p
         className={`${lusitana.className}
-          truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}
+           rounded-xl bg-white px-4 py-8 text-justify`}
       >
-        {Question.content}
+        {question.content} at {question.createdAt.toISOString()}
       </p>
     </div>
   );

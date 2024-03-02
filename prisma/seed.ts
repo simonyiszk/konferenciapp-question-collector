@@ -73,6 +73,7 @@ async function main() {
           userId: userId,
           presentationId: presentation.id,
           mark,
+          createdAt: new Date(Date.now() - faker.number.int(60 * 60 * 1000)),
         });
       }
     }

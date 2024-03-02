@@ -12,6 +12,10 @@ export function NotFoundResponse(message: string): Response {
   return Response.json({ message }, { status: 404 });
 }
 
+export function RateLimitExceeded(message: string): Response {
+  return Response.json({ message }, { status: 429 });
+}
+
 export function InternalServerErrorResponse(message: string): Response {
   return Response.json({ message }, { status: 500 });
 }

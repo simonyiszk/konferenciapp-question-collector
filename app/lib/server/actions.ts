@@ -14,13 +14,13 @@ export async function setQuestionMark(formData: FormData) {
   if (
     !rawId ||
     !mark ||
-    !Number.isInteger(Number.parseInt(rawId)) ||
+    !Number.isInteger(Number.parseInt(rawId, 10)) ||
     !QUESTION_MARKS.includes(mark as QuestionState)
   ) {
     throw new Error('Invalid form data');
   }
 
-  const id = Number.parseInt(rawId);
+  const id = Number.parseInt(rawId, 10);
 
   await prisma.question.update({
     data: {

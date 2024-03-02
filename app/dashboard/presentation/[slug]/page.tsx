@@ -6,10 +6,13 @@ import { lusitana } from '@/app/ui/fonts';
 export default async function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
 
-  if (typeof slug !== 'string' || !Number.isInteger(Number.parseInt(slug))) {
+  if (
+    typeof slug !== 'string' ||
+    !Number.isInteger(Number.parseInt(slug, 10))
+  ) {
     throw new Error('Invalid presentation id');
   }
-  const id = Number.parseInt(slug);
+  const id = Number.parseInt(slug, 10);
   const presentation = await prisma.presentation.findUnique({
     where: { id },
     include: {

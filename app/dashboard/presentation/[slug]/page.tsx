@@ -3,6 +3,8 @@ import { QuestionCard } from '@/app/ui/dashboard/question-card';
 import { StatsCard } from '@/app/ui/dashboard/stats-cards';
 import { lusitana } from '@/app/ui/fonts';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug;
 

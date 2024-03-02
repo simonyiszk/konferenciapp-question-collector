@@ -9,13 +9,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model Presentation {
-  id                Int        @id @default(autoincrement())
+  id                String     @id @default(uuid())
   title             String     @unique
   start             DateTime
   end               DateTime
@@ -49,7 +49,7 @@ model Question {
 
   userId         String
   user           User          @relation(fields: [userId], references: [id])
-  presentationId Int
+  presentationId String
   presentation   Presentation  @relation(fields: [presentationId], references: [id])
   content        String
   mark           QuestionState @default(NONE)

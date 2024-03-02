@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { prisma } from '@/app/lib/server/prisma';
 import AcmeLogo from '@/app/ui/acme-logo';
 
+export const dynamic = 'force-dynamic';
+
 export default async function SideNav() {
   const presentations = await prisma.presentation.findMany({
     orderBy: { start: 'asc' },

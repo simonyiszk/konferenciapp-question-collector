@@ -2,6 +2,8 @@ import { prisma } from '@/app/lib/server/prisma';
 import { StatsCard } from '@/app/ui/dashboard/stats-cards';
 import { lusitana } from '@/app/ui/fonts';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   const blacklist = await prisma.user.findMany({
     where: { blacklistedAt: { not: null } },

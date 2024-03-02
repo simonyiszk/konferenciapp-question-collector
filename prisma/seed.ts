@@ -44,40 +44,47 @@ async function main() {
       room,
     }));
 
-  await prisma.presentations.createMany({ data: presentationsData });
-  const presentations = await prisma.presentations.findMany();
+  await prisma.presentation.createMany({ data: presentationsData });
+  const presentations = await prisma.presentation.findMany();
 
-  const askers = faker.helpers
+  const users = faker.helpers
     .multiple(faker.number.int, { count: 12 })
     .map((x) => `user-${x}`);
 
-  await prisma.askers.createMany({ data: askers.map((id) => ({ id })) });
+  await prisma.user.createMany({ data: users.map((id) => ({ id })) });
 
   const questions = [];
   for (const presentation of presentations) {
     if (presentation.start > new Date()) continue;
-    const askerIds = faker.helpers.arrayElements(askers, 12);
-    for (const askerId of askerIds) {
-      if (faker.number.int({ min: 0, max: 2 }) === 0) continue;
-      questions.push({
-        content: faker.lorem.sentence({ min: 1, max: 30 }),
-        askerId: askerId,
-        presentationId: presentation.id,
-        mark: faker.helpers.maybe(
-          () => faker.helpers.arrayElement(['MARKED', 'BLACKLISTED']),
-          { probability: 0.3 },
-        ) as QuestionState | undefined,
-      });
+    const userIds = faker.helpers.arrayElements(users, 12);
+    for (const userId of userIds) {
+      const numQuestions = faker.number.int({ min: 0, max: 5 });
+      for (let i = 0; i < numQuestions; i++) {
+        if (faker.number.int({ min: 0, max: 2 }) === 0) continue;
+        const mark =
+          faker.number.int({ min: 0, max: 2 }) === 0
+            ? QuestionState.SELECTED
+            : faker.number.int({ min: 0, max: 2 }) === 0
+            ? QuestionState.HIDDEN
+            : QuestionState.NONE;
+
+        questions.push({
+          content: faker.lorem.sentence({ min: 1, max: 30 }),
+          userId: userId,
+          presentationId: presentation.id,
+          mark,
+        });
+      }
     }
   }
-  await prisma.questions.createMany({ data: questions });
+  await prisma.question.createMany({ data: questions });
 
-  await prisma.askers.updateMany({
+  await prisma.user.updateMany({
     data: {
-      blacklistedAt: new Date(),
+      blacklistedAt: new Date(Date.now() - faker.number.int(5 * 60 * 1000)),
     },
     where: {
-      id: { in: faker.helpers.arrayElements(askers, 3) },
+      id: { in: faker.helpers.arrayElements(users, 3) },
     },
   });
 }

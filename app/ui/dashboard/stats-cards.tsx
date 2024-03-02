@@ -21,9 +21,9 @@ export function StatsCard({
 }: {
   title: string;
   value: number | string;
-  type: 'invoices' | 'customers' | 'pending' | 'marked';
+  type?: 'invoices' | 'customers' | 'pending' | 'marked' | null;
 }) {
-  const Icon = iconMap[type];
+  const Icon = type ? iconMap[type] : undefined;
 
   return (
     <div className="rounded-xl bg-gray-50 p-2 shadow-sm">

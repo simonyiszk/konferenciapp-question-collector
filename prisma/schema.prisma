@@ -13,49 +13,46 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
-model Presentations {
-  id                Int         @id @default(autoincrement())
-  title             String      @unique
+model Presentation {
+  id                Int        @id @default(autoincrement())
+  title             String     @unique
   start             DateTime
   end               DateTime
   room              String
   presenterFullName String
   presenterAvatar   String?
-  Question          Questions[]
+  questions         Question[]
 
   @@unique([start, room])
   @@unique([end, room])
   @@index([start])
 }
 
-model Askers {
-  id            String      @id @unique
-  createdAt     DateTime    @default(now())
+model User {
+  id            String     @id @unique
+  createdAt     DateTime   @default(now())
   blacklistedAt DateTime?
-  Question      Questions[]
+  questions     Question[]
 
   @@index([blacklistedAt])
 }
 
 enum QuestionState {
-  MARKED
-  BLACKLISTED
+  NONE
+  SELECTED
+  HIDDEN
 }
 
-model Questions {
+model Question {
   id Int @id @default(autoincrement())
 
-  askerId String
-  asker   Askers @relation(fields: [askerId], references: [id])
-
+  userId         String
+  user           User          @relation(fields: [userId], references: [id])
   presentationId Int
-  presentation   Presentations @relation(fields: [presentationId], references: [id])
+  presentation   Presentation  @relation(fields: [presentationId], references: [id])
+  content        String
+  mark           QuestionState @default(NONE)
+  createdAt      DateTime      @default(now())
 
-  content   String
-  mark      QuestionState?
-  createdAt DateTime       @default(now())
-
-  @@unique([presentationId, content])
   @@index([presentationId, createdAt])
-  @@index([presentationId, mark, createdAt])
 }

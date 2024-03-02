@@ -3,10 +3,10 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "postinstall": "prisma migrate deploy && prisma generate",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
-    "start": "next start",
-    "postinstall": "prisma generate"
+    "start": "next start"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",

@@ -1,33 +1,18 @@
-import { plainToInstance, Transform } from 'class-transformer';
-import { IsInt, IsNotEmpty, validate } from 'class-validator';
+import { validate } from 'class-validator';
 
 import { prisma } from '@/app/lib/server/prisma';
 import {
   BadRequestResponse,
   InternalServerErrorResponse,
   OkResponse,
-  RateLimitExceeded,
 } from '@/app/lib/server/responses';
-
-export class CreateQuestionDto {
-  @IsNotEmpty()
-  content!: string;
-
-  @IsNotEmpty()
-  userId!: string;
-
-  // From slug
-  @Transform(({ value }) => Number.parseInt(value, 10))
-  @IsNotEmpty()
-  @IsInt()
-  presentationId!: number;
-}
+import { CreateQuestionInput } from '@/app/types/CreateQuestionsDto';
 
 export async function POST(
   req: Request,
   { params }: { params: { id: string } },
 ) {
-  const data = plainToInstance(CreateQuestionDto, {
+  const data = CreateQuestionInput.fromPlain({
     ...(await req.json()),
     presentationId: params.id,
   });

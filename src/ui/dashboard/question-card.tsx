@@ -27,9 +27,14 @@ export function QuestionCard({ question }: { question: Question }) {
           {question.userId}
         </h3>
 
-        <ClipBoard text={question.content}>
-          <ClipboardIcon className="row-start-1 h-6 w-6 cursor-pointer text-gray-500 hover:text-gray-700 xl:col-start-12 xl:justify-self-end" />
-        </ClipBoard>
+        <button
+          type="button"
+          className="row-start-1 flex animate-none cursor-pointer items-center justify-center text-gray-500 hover:text-gray-700 focus:text-purple-400 xl:col-start-12 xl:justify-self-end"
+        >
+          <ClipBoard text={question.content}>
+            <ClipboardIcon className="h-6 w-6" />
+          </ClipBoard>
+        </button>
 
         <button className="col-start-6 h-6 text-gray-500 hover:text-red-400 xl:col-span-6 xl:col-start-1 xl:w-28 xl:justify-self-start">
           <UserMinusIcon className="block xl:hidden" />

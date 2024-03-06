@@ -10,7 +10,7 @@ export function PeriodicReloader({
 }) {
   const [tick, setTick] = useState(0);
   useEffect(() => {
-    const intervalId = setInterval(() => setTick((t) => t + 1), interval);
+    const intervalId = setInterval(() => setTick(() => tick + 1), interval);
     return () => clearInterval(intervalId);
   });
 

@@ -1,4 +1,4 @@
-import { fakerHU as faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { PrismaClient, QuestionState } from '@prisma/client';
 
 faker.seed(42);
@@ -37,6 +37,7 @@ async function main() {
   const presentationsData = faker.helpers
     .arrayElements(roomSlots({ halfN: 8 }), 15)
     .map(({ start, end, room }) => ({
+      id: faker.word.words(2).replace(/\s/g, '-'),
       title: faker.word.words(5),
       start: new Date(start),
       end: new Date(end),

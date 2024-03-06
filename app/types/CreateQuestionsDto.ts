@@ -1,5 +1,5 @@
 import { plainToInstance } from 'class-transformer';
-import { IsInt, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export interface CreateQuestionDto {
   content: string;
@@ -15,7 +15,7 @@ export class CreateQuestionInput {
 
   // From slug
   @IsNotEmpty()
-  @IsInt()
+  @IsString()
   presentationId!: string;
 
   static fromPlain(plain: CreateQuestionDto) {

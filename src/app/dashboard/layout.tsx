@@ -12,8 +12,8 @@ export default async function Layout({
     orderBy: { start: 'asc' },
   });
   return (
-    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-      <div className="w-full flex-none md:w-64">
+    <div className="flex flex-col md:h-screen md:flex-row md:overflow-hidden">
+      <div className="w-full flex-none md:w-80 xl:w-96">
         <SideNav presentations={presentations} />
       </div>
       <div className="flex-grow overflow-y-scroll p-6 md:p-12">{children}</div>

@@ -55,7 +55,7 @@ async function ActualPage({ id }: { id: string }) {
           )}
         </div>
       </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
+      <div className="flex w-full flex-col gap-5 md:flex-row">
         <TimeCard start={presentation.start} end={presentation.end} />
         <StatsCard title="Beérkezett" icon={InboxIcon}>
           {presentation.questions.length}

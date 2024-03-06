@@ -1,5 +1,4 @@
 import { prisma } from '@/app/lib/server/prisma';
-import { StatsCard } from '@/app/ui/dashboard/stats-cards';
 import { lusitana } from '@/app/ui/fonts';
 
 export const dynamic = 'force-dynamic';
@@ -29,12 +28,13 @@ export default async function Page() {
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {asker.questions.map((question, index) => (
-              <StatsCard
+              <div
+                className="border p-2"
                 key={index}
                 title={question.presentation.title}
-                value={question.content}
-                type="pending"
-              />
+              >
+                {question.content}{' '}
+              </div>
             ))}
           </div>
         </div>

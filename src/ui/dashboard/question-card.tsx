@@ -8,6 +8,7 @@ import {
 import { Question, QuestionState } from '@prisma/client';
 
 import { setQuestionMark } from '@/server-lib/actions';
+import ClipBoard from '@/ui/copy-clipboard';
 
 export function QuestionCard({ question }: { question: Question }) {
   const isSelected = question.mark === QuestionState.SELECTED;
@@ -26,9 +27,9 @@ export function QuestionCard({ question }: { question: Question }) {
           {question.userId}
         </h3>
 
-        <button className="row-start-1 h-6 w-6 text-gray-500 hover:text-gray-700 lg:col-start-12 lg:justify-self-end">
-          <ClipboardIcon className="" />
-        </button>
+        <ClipBoard text={question.content}>
+          <ClipboardIcon className="row-start-1 h-6 w-6 cursor-pointer text-gray-500 hover:text-gray-700 lg:col-start-12 lg:justify-self-end" />
+        </ClipBoard>
 
         <button className="col-start-6 h-6 text-gray-500 hover:text-red-400 lg:col-span-6 lg:col-start-1 lg:w-28 lg:justify-self-start">
           <UserMinusIcon className="block lg:hidden" />

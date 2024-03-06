@@ -1,3 +1,4 @@
+import { QuestionState } from '@prisma/client';
 import { validate } from 'class-validator';
 
 import { prisma } from '@/server-lib/prisma';
@@ -7,6 +8,26 @@ import {
   OkResponse,
 } from '@/server-lib/responses';
 import { CreateQuestionInput } from '@/types/CreateQuestionsDto';
+
+export async function GET(
+  req: Request,
+  { params }: { params: { id: string } },
+) {
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get('userid');
+
+  if (!userId) return BadRequestResponse('Missing userid');
+
+  try {
+    const questions = await prisma.question.findMany({
+      where: { presentationId: params.id, userId },
+    });
+    return OkResponse(questions);
+  } catch (e) {
+    console.log(e);
+    return InternalServerErrorResponse(JSON.stringify(e));
+  }
+}
 
 export async function POST(
   req: Request,

@@ -2,8 +2,7 @@ import Image from 'next/image';
 
 import AcmeLogo from '@/app/ui/acme-logo';
 import { lusitana } from '@/app/ui/fonts';
-
-import AuthButton from '../ui/home/signin-form';
+import AuthButton from '@/app/ui/home/signin-form';
 
 export default function Page() {
   return (

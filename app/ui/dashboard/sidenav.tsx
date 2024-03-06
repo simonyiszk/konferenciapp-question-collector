@@ -1,15 +1,17 @@
 import { UserGroupIcon } from '@heroicons/react/24/outline';
+import { type Presentation } from '@prisma/client';
 import Link from 'next/link';
 
-import { prisma } from '@/app/lib/server/prisma';
+import { isTimeFrameActive } from '@/app/lib/utils';
 import AcmeLogo from '@/app/ui/acme-logo';
 
 export const dynamic = 'force-dynamic';
 
-export default async function SideNav() {
-  const presentations = await prisma.presentation.findMany({
-    orderBy: { start: 'asc' },
-  });
+export default async function SideNav({
+  presentations,
+}: {
+  presentations: Presentation[];
+}) {
   return (
     <div className="flex h-screen w-72 flex-col bg-gray-300 p-2 pt-4">
       <Link className="flex rounded-md bg-black px-4 py-6" href="/dashboard">
@@ -22,8 +24,7 @@ export default async function SideNav() {
       <div className="mx-0 my-2 flex h-[50%] grow flex-col justify-between space-y-2 bg-white">
         <ul className="h-full overflow-y-scroll">
           {presentations.map((presentation) => {
-            const active =
-              presentation.start < new Date() && presentation.end > new Date();
+            const active = isTimeFrameActive(presentation);
             return (
               <li key={presentation.id}>
                 <Link

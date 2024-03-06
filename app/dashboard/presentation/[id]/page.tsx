@@ -1,22 +1,27 @@
 import { QuestionState } from '@prisma/client';
-import Link from 'next/link';
 
 import { prisma } from '@/app/lib/server/prisma';
-import { QuestionCard } from '@/app/ui/dashboard/question-card';
-import { StatsCard } from '@/app/ui/dashboard/stats-cards';
+import { isTimeFrameActive } from '@/app/lib/utils';
+import QuestionGrid from '@/app/ui/dashboard/presentation/[id]/question-grid';
+import { StatsCard } from '@/app/ui/dashboard/stats-card';
 import { lusitana } from '@/app/ui/fonts';
-
-import { isPresentationLive } from './lib';
-import URLSearchFilter from './question-state-filterer';
+import { PeriodicReloader } from '@/app/ui/utils';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const id = params.slug;
-
-  if (!id) {
+export default async function Page({ params }: { params: { id: string } }) {
+  if (!params.id) {
     throw new Error('Invalid presentation id');
   }
+
+  return (
+    <PeriodicReloader interval={10_000}>
+      <ActualPage id={params.id} />
+    </PeriodicReloader>
+  );
+}
+
+async function ActualPage({ id }: { id: string }) {
   const presentation = await prisma.presentation.findUnique({
     where: { id },
     include: {
@@ -27,8 +32,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
       },
     },
   });
+
   if (!presentation) throw new Error('Invalid presentation id');
-  const isLive = isPresentationLive(presentation);
+  const isLive = isTimeFrameActive(presentation);
 
   return (
     <main>
@@ -68,25 +74,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
           type="marked"
         />
       </div>
-      <div className="my-2 flex space-x-2">
-        <Link href="?filter=NONE">
-          <button className="rounded-xl bg-gray-300 p-2">Összes</button>
-        </Link>
-        <Link href="?filter=SELECTED">
-          <button className="rounded-xl bg-green-300 p-2">Megjelölt</button>
-        </Link>
-        <Link href="?filter=HIDDEN">
-          <button className="rounded-xl bg-red-300 p-2">Elrejtett</button>
-        </Link>
-      </div>
       <span className="mb-4 mt-4 block h-1 w-32 rounded-lg bg-gray-300" />
-      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-3">
-        {presentation.questions.map((question) => (
-          <URLSearchFilter key={question.id} mark={question.mark}>
-            <QuestionCard question={question} />
-          </URLSearchFilter>
-        ))}
-      </div>
+      <QuestionGrid questions={presentation.questions} />
     </main>
   );
 }

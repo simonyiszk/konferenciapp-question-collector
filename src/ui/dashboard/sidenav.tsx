@@ -2,7 +2,7 @@ import { UserGroupIcon } from '@heroicons/react/24/outline';
 import { type Presentation } from '@prisma/client';
 import Link from 'next/link';
 
-import { isTimeFrameActive } from '@/lib/utils';
+import { isActiveNow } from '@/lib/utils';
 import AcmeLogo from '@/ui/acme-logo';
 
 export const dynamic = 'force-dynamic';
@@ -24,13 +24,13 @@ export default async function SideNav({
       <div className="mx-0 my-2 flex h-[50%] grow flex-col justify-between space-y-2 bg-white">
         <ul className="h-full overflow-y-scroll">
           {presentations.map((presentation) => {
-            const active = isTimeFrameActive(presentation);
+            const isLive = isActiveNow(presentation);
             return (
               <li key={presentation.id}>
                 <Link
                   className={
                     'flex h-20 w-full items-center justify-center hover:bg-sky-100 hover:text-blue-600 ' +
-                    (active ? 'font-bold' : '')
+                    (isLive ? 'font-bold' : '')
                   }
                   href={`/dashboard/presentation/${presentation.id}`}
                 >

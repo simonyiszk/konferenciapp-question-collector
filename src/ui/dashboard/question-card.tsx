@@ -14,10 +14,10 @@ export function QuestionCard({ question }: { question: Question }) {
   const isHidden = question.mark === QuestionState.HIDDEN;
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-md">
+    <div className="rounded-lg bg-white shadow-md">
       <form
         action={setQuestionMark}
-        className="mb-2 grid grid-cols-8 grid-rows-2  items-center justify-items-center gap-y-2 lg:grid-cols-12"
+        className="grid grid-cols-8 grid-rows-2 items-center  justify-items-center gap-y-2 p-6 pb-3 lg:grid-cols-12"
       >
         <input className="hidden" type="hidden" name="id" value={question.id} />
         <UserIcon className="row-start-1 h-6 w-6 justify-self-start" />
@@ -26,13 +26,13 @@ export function QuestionCard({ question }: { question: Question }) {
           {question.userId}
         </h3>
 
-        <ClipboardIcon className="row-start-1 h-6 w-6 text-gray-500 hover:text-gray-700 lg:col-start-12 lg:justify-self-end" />
+        <button className="row-start-1 h-6 w-6 text-gray-500 hover:text-gray-700 lg:col-start-12 lg:justify-self-end">
+          <ClipboardIcon className="" />
+        </button>
 
-        <button className="col-start-6 text-gray-500 hover:text-red-400 lg:col-span-6 lg:col-start-1 lg:justify-self-start">
-          <span className="block lg:hidden">
-            <UserMinusIcon className="h-6 w-6" />
-          </span>
-          <span className="hidden lg:block">blacklist user</span>
+        <button className="col-start-6 h-6 text-gray-500 hover:text-red-400 lg:col-span-6 lg:col-start-1 lg:w-28 lg:justify-self-start">
+          <UserMinusIcon className="block lg:hidden" />
+          <span className="w-100 hidden lg:block">blacklist user</span>
         </button>
 
         <button
@@ -41,8 +41,10 @@ export function QuestionCard({ question }: { question: Question }) {
           name="mark"
           value={isHidden ? QuestionState.NONE : QuestionState.HIDDEN}
           className={`h-6 w-6 lg:col-start-10 lg:row-start-1 lg:justify-self-end ${
-            isHidden ? 'text-red-500' : 'text-gray-500'
-          } hover:text-gray-700`}
+            isHidden
+              ? 'text-red-500 hover:text-gray-700'
+              : 'text-gray-500 hover:text-red-700'
+          } `}
         >
           <TrashIcon />
         </button>
@@ -64,53 +66,9 @@ export function QuestionCard({ question }: { question: Question }) {
         </p>
       </form>
 
-      <p className="text-justify text-gray-700">{question.content}</p>
+      <hr />
+
+      <p className="p-6 pt-3 text-justify text-gray-700">{question.content}</p>
     </div>
   );
-
-  // return (
-  //   <div
-  //     {...rest}
-  //     className={' rounded-xl bg-gray-50 p-2 shadow-sm ' + rest.className}
-  //   >
-  //     <div className="w-100 flex p-4">
-  //       {/* <form action={() => {}} className="flex-2"> */}
-  //       <h3 className=" flex-2 flex space-x-2 overflow-x-hidden text-sm font-medium">
-  //         <button className="hover:bg-gray-200">
-  //           <UserMinusIcon className="h-5 w-5" />
-  //         </button>
-  //         <span>{question.userId.slice(5)}</span>
-  //       </h3>
-  //       {/* </form> */}
-
-  //       <form action={setQuestionMark} className="flex space-x-1.5">
-  //         <input type="hidden" name="id" value={question.id} />
-  //         <button
-  //           title="elrejtés"
-  //           type="submit"
-  //           name="mark"
-  //           value={isHidden ? QuestionState.NONE : QuestionState.HIDDEN}
-  //           className={'hover:bg-gray-200 ' + (isHidden ? ' text-red-400' : '')}
-  //         >
-  //           <TrashIcon className="h-5 w-5" />
-  //         </button>
-  //         <button
-  //           title="megjelölés"
-  //           type="submit"
-  //           name="mark"
-  //           value={isSelected ? QuestionState.NONE : QuestionState.SELECTED}
-  //           className={isSelected ? ' text-yellow-400' : ''}
-  //         >
-  //           <StarIcon className="h-5 w-5" />
-  //         </button>
-  //       </form>
-  //     </div>
-  //     <p
-  //       className={`${lusitana.className}
-  //          rounded-xl bg-white px-4 py-8 text-justify`}
-  //     >
-  //       {question.content} at {question.createdAt.toISOString()}
-  //     </p>
-  //   </div>
-  // );
 }

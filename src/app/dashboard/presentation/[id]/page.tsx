@@ -1,8 +1,10 @@
+import { InboxIcon, StarIcon } from '@heroicons/react/24/outline';
 import { QuestionState } from '@prisma/client';
 
-import { isTimeFrameActive } from '@/lib/utils';
+import { isActiveNow } from '@/lib/utils';
 import { prisma } from '@/server-lib/prisma';
 import QuestionGrid from '@/ui/dashboard/presentation/[id]/question-grid';
+import { TimeCard } from '@/ui/dashboard/presentation/[id]/time-card';
 import { StatsCard } from '@/ui/dashboard/stats-card';
 import { lusitana } from '@/ui/fonts';
 import { PeriodicReloader } from '@/ui/utils';
@@ -34,7 +36,7 @@ async function ActualPage({ id }: { id: string }) {
   });
 
   if (!presentation) throw new Error('Invalid presentation id');
-  const isLive = isTimeFrameActive(presentation);
+  const isLive = isActiveNow(presentation);
 
   return (
     <main>
@@ -54,25 +56,17 @@ async function ActualPage({ id }: { id: string }) {
         </div>
       </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
-        <StatsCard
-          title="Előadás vége"
-          value={presentation.end.toISOString().slice(11, 16) || 'N/A'}
-          type="pending"
-        />
-        <StatsCard
-          title="Beérkezett"
-          value={presentation.questions.length}
-          type="invoices"
-        />
-        <StatsCard
-          title="Megjelölt"
-          value={
+        <TimeCard start={presentation.start} end={presentation.end} />
+        <StatsCard title="Beérkezett" icon={InboxIcon}>
+          {presentation.questions.length}
+        </StatsCard>
+        <StatsCard title="Megjelölt" icon={StarIcon}>
+          {
             presentation.questions.filter(
               (q) => q.mark === QuestionState.SELECTED,
             ).length
           }
-          type="marked"
-        />
+        </StatsCard>
       </div>
       <span className="mb-4 mt-4 block h-1 w-32 rounded-lg bg-gray-300" />
       <QuestionGrid questions={presentation.questions} />

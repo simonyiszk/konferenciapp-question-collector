@@ -1,4 +1,3 @@
-import { QuestionState } from '@prisma/client';
 import { validate } from 'class-validator';
 
 import { prisma } from '@/server-lib/prisma';

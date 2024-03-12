@@ -11,7 +11,9 @@ export default function SignOutForm() {
 
   return (
     <form>
-      <h1 className="mb-2 text-xl md:text-2xl">Üdv {session?.user?.email}!</h1>
+      <h1 className="mb-2 text-xl md:text-2xl">
+        Üdv {session?.user?.email ?? 'Ismeretlen'}!
+      </h1>
       <button
         onClick={() => {
           signOut({ callbackUrl: '/' });

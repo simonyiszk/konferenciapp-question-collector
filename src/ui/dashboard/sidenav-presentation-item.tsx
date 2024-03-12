@@ -23,14 +23,26 @@ export default function SideNavPresentationItem({
         <div className="h-12 w-12 rounded-full bg-gray-500">
           {presentation.presenterAvatar ? (
             <Image
+              width={100}
+              height={100}
               alt="Avatar of presenter"
               src={presentation.presenterAvatar}
+              className="rounded-full"
             />
           ) : null}
         </div>
       </div>
       <div className="flex w-full flex-col">
-        <p>{presentation.title}</p>
+        <p className="">
+          {presentation.title.split(' ').slice(0, 7).join(' ')}
+          {/*
+            Forgive me Daddy I was naughty.
+            TODO: Use ellipses
+          */}
+          <span className="hidden">
+            {presentation.title.split(' ').slice(7).join(' ')}
+          </span>
+        </p>
         <p className="text-gray-500">
           {presentation.presenterFullName} - {presentation.room}
         </p>

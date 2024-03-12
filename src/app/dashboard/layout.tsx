@@ -9,7 +9,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const presentations = await prisma.presentation.findMany({
-    orderBy: { start: 'asc' },
+    orderBy: [{ start: 'asc' }, { room: 'asc' }],
   });
   return (
     <div className="flex flex-col md:h-screen md:flex-row md:overflow-hidden">

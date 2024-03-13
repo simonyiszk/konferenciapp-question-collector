@@ -6,12 +6,10 @@ export const dynamic = 'force-dynamic';
 
 export default function Page() {
   return (
-    <main>
+    <main className="p-10">
       <SignOutForm className="mb-4" />
       <form action={updatePresentations}>
-        <Button variant="secondary" type="submit">
-          Előadások frissítése
-        </Button>
+        <Button type="submit">Előadások frissítése</Button>
       </form>
     </main>
   );

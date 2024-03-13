@@ -1,12 +1,11 @@
-import { InboxIcon, StarIcon } from '@heroicons/react/24/outline';
 import { QuestionState } from '@prisma/client';
+import { FiInbox, FiStar } from 'react-icons/fi';
 
 import { isActiveNow } from '@/lib/utils';
 import { prisma } from '@/server-lib/prisma';
-import QuestionGrid from '@/ui/dashboard/presentation/[id]/question-grid';
-import { TimeCard } from '@/ui/dashboard/presentation/[id]/time-card';
+import QuestionGrid from '@/ui/dashboard/presentation/question-grid';
+import { TimeCard } from '@/ui/dashboard/presentation/time-card';
 import { StatsCard } from '@/ui/dashboard/stats-card';
-import { lusitana } from '@/ui/fonts';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,28 +29,24 @@ export default async function Page({ params }: { params: { id: string } }) {
   const isLive = isActiveNow(presentation);
 
   return (
-    <main>
-      <div>
-        <h1 className={`${lusitana.className} text-xl md:text-2xl`}>
-          {presentation.title}
-        </h1>
-        <div className="flex space-x-2 text-sm text-white">
-          {presentation.room && (
-            <span className="rounded-full bg-red-500 p-1.5 px-4">
-              {presentation.room}
-            </span>
-          )}
-          {isLive && (
-            <span className="rounded-full bg-green-500 p-1.5 px-4">Live</span>
-          )}
-        </div>
+    <main className="space-y-4 p-10">
+      <h1 className="text-xl md:text-2xl">{presentation.title}</h1>
+      <div className="flex space-x-2 text-sm text-white">
+        {presentation.room && (
+          <span className="rounded-full bg-red-500 p-1.5 px-4">
+            {presentation.room}
+          </span>
+        )}
+        {isLive && (
+          <span className="rounded-full bg-green-500 p-1.5 px-4">Live</span>
+        )}
       </div>
       <div className="flex w-full flex-col gap-5 md:flex-row">
         <TimeCard start={presentation.start} end={presentation.end} />
-        <StatsCard title="Beérkezett" icon={InboxIcon}>
+        <StatsCard title="Beérkezett" icon={FiInbox}>
           {presentation.questions.length}
         </StatsCard>
-        <StatsCard title="Megjelölt" icon={StarIcon}>
+        <StatsCard title="Megjelölt" icon={FiStar}>
           {
             presentation.questions.filter(
               (q) => q.mark === QuestionState.SELECTED,

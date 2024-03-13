@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default: 'bg-primary-500 hover:bg-primary-600 text-white',
         destructive: 'bg-red-500 text-white',
         outline:
-          'bg-transparent border-2 border-primary-500 hover:bg-primary-500/30 text-primary-500',
+          'bg-transparent border-2 border-primary-500 hover:bg-primary-500/30 active:bg-primary-500/30 text-primary-500',
       },
     },
     defaultVariants: {

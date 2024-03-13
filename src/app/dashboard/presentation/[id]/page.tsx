@@ -7,7 +7,6 @@ import QuestionGrid from '@/ui/dashboard/presentation/[id]/question-grid';
 import { TimeCard } from '@/ui/dashboard/presentation/[id]/time-card';
 import { StatsCard } from '@/ui/dashboard/stats-card';
 import { lusitana } from '@/ui/fonts';
-import { PeriodicReloader } from '@/ui/utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,16 +15,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     throw new Error('Invalid presentation id');
   }
 
-  return (
-    <PeriodicReloader interval={10_000}>
-      <ActualPage id={params.id} />
-    </PeriodicReloader>
-  );
-}
-
-async function ActualPage({ id }: { id: string }) {
   const presentation = await prisma.presentation.findUnique({
-    where: { id },
+    where: { id: params.id },
     include: {
       questions: {
         orderBy: { createdAt: 'asc' },

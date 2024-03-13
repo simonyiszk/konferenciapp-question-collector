@@ -3,25 +3,28 @@
 import { signOut, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
-export default function SignOutForm() {
+import { Button } from '@/components/ui/button';
+
+export interface SignOutFormProps
+  extends React.HTMLAttributes<HTMLFormElement> {}
+
+export default function SignOutForm(props: SignOutFormProps) {
   const { data: session, update: updateSession } = useSession();
   useEffect(() => {
     updateSession();
   }, []);
 
   return (
-    <form>
+    <form {...props}>
       <h1 className="mb-2 text-xl md:text-2xl">
         Üdv {session?.user?.email ?? 'Ismeretlen'}!
       </h1>
-      <button
-        onClick={() => {
-          signOut({ callbackUrl: '/' });
-        }}
-        className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-100 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
+      <Button
+        variant="destructive"
+        onClick={() => signOut({ callbackUrl: '/' })}
       >
         <div className="hidden md:block">Kijelentkezés</div>
-      </button>
+      </Button>
     </form>
   );
 }

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
-import { Button } from '@/ui/button';
+import { Button } from '@/components/ui/button';
 
 export default function SignInForm() {
   const { data: session, status, update: updateSession } = useSession();
@@ -27,9 +27,12 @@ export default function SignInForm() {
   }
 
   return (
-    <div className="flex max-w-xs flex-col">
+    <div className="flex max-w-xs flex-col space-y-4">
       {status && (
-        <Button onClick={onClick} className="mb-4 w-full">
+        <Button
+          onClick={onClick}
+          className="w-full bg-blue-500 hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600"
+        >
           <span>Bejelentkezés Google Fiókkal</span>{' '}
           <ArrowRightIcon className="ml-auto w-5 md:w-6" />
         </Button>
@@ -37,9 +40,9 @@ export default function SignInForm() {
       {status === 'loading' && <p className="h-10 font-bold">Loading...</p>}
       {status === 'authenticated' && (
         <Link href="/dashboard">
-          <Button className="w-full">
+          <Button className="w-full bg-blue-500 hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600">
             <span>{session?.user?.email ?? ' '}</span>
-            <ArrowRightIcon className="ml-auto w-5 md:w-6" />
+            <ArrowRightIcon className="ml-auto w-5  md:w-6" />
           </Button>
         </Link>
       )}

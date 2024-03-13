@@ -9,6 +9,7 @@ import { Question, QuestionState } from '@prisma/client';
 
 import { setQuestionMark } from '@/server-lib/actions';
 import ClipBoard from '@/ui/copy-clipboard';
+import { TimeAgo } from '@/ui/dashboard/time-ago';
 
 export function QuestionCard({ question }: { question: Question }) {
   const isSelected = question.mark === QuestionState.SELECTED;
@@ -38,7 +39,7 @@ export function QuestionCard({ question }: { question: Question }) {
 
         <button className="col-start-6 h-6 text-gray-500 hover:text-red-400 xl:col-span-6 xl:col-start-1 xl:w-28 xl:justify-self-start">
           <UserMinusIcon className="block xl:hidden" />
-          <span className="w-100 hidden xl:block">blacklist user</span>
+          <span className="w-100 hidden xl:block">tiltólistára</span>
         </button>
 
         <button
@@ -68,7 +69,7 @@ export function QuestionCard({ question }: { question: Question }) {
         </button>
 
         <p className="col-span-3 row-start-2 justify-self-start  text-sm text-gray-500 xl:col-span-4 xl:col-start-9 xl:justify-self-end">
-          22 secs ago
+          <TimeAgo time={question.createdAt} tick={1000} />
         </p>
       </form>
 

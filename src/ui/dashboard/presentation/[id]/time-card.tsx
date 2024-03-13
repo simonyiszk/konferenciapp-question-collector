@@ -1,48 +1,38 @@
 'use client';
 import { ClockIcon } from '@heroicons/react/24/outline';
-import {
-  differenceInHours,
-  differenceInMinutes,
-  differenceInSeconds,
-} from 'date-fns';
 import { useEffect, useState } from 'react';
 
 import { StatsCard } from '@/ui/dashboard/stats-card';
+import { TimeAgo } from '@/ui/dashboard/time-ago';
 
 export function TimeCard({ start, end }: { start: Date; end: Date }) {
+  // Fix hydration mismatch
   const [ssr, setSsr] = useState(true);
   useEffect(() => setSsr(false), []);
-  const [now, setNow] = useState(new Date());
+
+  const [_tick, setTick] = useState(0);
   useEffect(() => {
-    const intervalId = setInterval(() => setNow(new Date()), 500);
+    const intervalId = setInterval((t) => setTick(t + 1), 1000);
     return () => clearInterval(intervalId);
   });
-  // Disable ssr to solve hydration mismatch
   if (ssr) return null;
-  const started = start < now;
-  const finished = end < now;
-  const target = now < start ? start : end;
-  const secs = Math.abs(differenceInSeconds(target, now)) % 60;
-  const mins = Math.abs(differenceInMinutes(target, now)) % 60;
-  const hours = Math.abs(
-    differenceInHours(target, now, { roundingMethod: 'round' }),
-  );
+  const now = new Date();
+  const before = now < start;
+  const during = now < end;
 
-  const prefixed = (n: number) => (n < 10 ? `0${n}` : n);
-
-  let s = '';
-  if (hours !== 0) s += `${prefixed(hours)}h:`;
-  s += `${prefixed(mins)}m`;
-  if (hours === 0) s += `:${prefixed(secs)}s`;
+  const dateToString = (d: Date) =>
+    `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
 
   return (
     <StatsCard
-      title={!started ? 'Kezdésig' : !finished ? 'Folyamatban' : 'Véget ért'}
+      title={before ? 'Kezdésig' : during ? 'Folyamatban' : 'Véget ért'}
       icon={ClockIcon}
     >
-      <span className="font-mono" title={`start:\t${start}\nend:  \t${end}`}>
-        {s}
-      </span>
+      <TimeAgo
+        className="font-mono"
+        time={before ? start : end}
+        title={`start:\t${dateToString(start)}\nend:  \t${dateToString(end)}`}
+      />
     </StatsCard>
   );
 }

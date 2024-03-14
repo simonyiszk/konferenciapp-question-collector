@@ -14,7 +14,7 @@ export default async function SideNav({
   presentations: Presentation[];
 }) {
   return (
-    <div className="flex h-full w-[400px] flex-col items-center overflow-hidden">
+    <div className="flex h-full w-[400px] flex-col items-center overflow-hidden bg-slate-200 shadow-inner shadow-slate-500/10">
       <div className="flex w-full items-center justify-center rounded-br-lg bg-white p-5 shadow-md shadow-slate-500/10">
         <Link href="/dashboard">Simonyi Konferencia</Link>
       </div>
@@ -27,9 +27,9 @@ export default async function SideNav({
           />
         ))}
       </div>
-      <div className="flex w-full flex-col space-y-2 p-5">
+      <div className="w-full rounded-tr-lg bg-white p-2 shadow-md shadow-slate-500/10">
         <Link passHref href="/dashboard">
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="mb-2 w-full">
             <FiHome />
             Home
           </Button>

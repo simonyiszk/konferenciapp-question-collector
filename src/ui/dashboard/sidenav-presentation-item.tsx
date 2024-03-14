@@ -9,6 +9,7 @@ export default function SideNavPresentationItem({
 }: {
   presentation: Presentation;
 }) {
+  const presenterInitials = getInitials(presentation.presenterFullName);
   return (
     <Link
       className={cn(
@@ -24,7 +25,11 @@ export default function SideNavPresentationItem({
           src={presentation.presenterAvatar}
           className="h-14 w-14 rounded-full"
         />
-      ) : null}
+      ) : (
+        <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2">
+          <p className="text-xl">{presenterInitials}</p>
+        </div>
+      )}
       <div className="mx-2 flex-1 flex-col gap-2 overflow-hidden">
         <p className="truncate">{presentation.title}</p>
         <p className="text-slate-500">
@@ -33,4 +38,11 @@ export default function SideNavPresentationItem({
       </div>
     </Link>
   );
+}
+
+function getInitials(name: string) {
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('');
 }

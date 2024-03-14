@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className="space-y-4 p-10">
-      <h1 className="text-xl md:text-2xl">{presentation.title}</h1>
+      <h1>{presentation.title}</h1>
       <div className="flex space-x-2 text-sm text-white">
         {presentation.room && (
           <span className="rounded-full bg-red-500 p-1.5 px-4">

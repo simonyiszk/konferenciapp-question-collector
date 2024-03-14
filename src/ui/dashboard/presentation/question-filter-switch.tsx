@@ -14,7 +14,7 @@ export function QuestionFilterSwitch({
   currentOption,
 }: QuestionFilterSwitchProps) {
   return (
-    <div className="w-fit space-x-2 rounded-lg bg-slate-50 p-1">
+    <div className="w-fit space-x-2 rounded-lg bg-slate-50 p-1 shadow-md shadow-slate-500/10">
       {options.map((option) => (
         <button
           key={option.value}

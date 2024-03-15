@@ -20,9 +20,9 @@ export function QuestionFilterSwitch({
           key={option.value}
           onClick={() => onOptionChange(option.value)}
           className={cn(
-            'hover:bg-primary-100 active:bg-primary-200 rounded-md px-4 py-2',
+            'rounded-md px-4 py-2 hover:bg-primary-100 active:bg-primary-200',
             {
-              'bg-primary-500 hover:bg-primary-600 active:bg-primary-700 text-white':
+              'bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700':
                 currentOption === option.value,
             },
           )}

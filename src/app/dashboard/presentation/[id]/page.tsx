@@ -1,8 +1,8 @@
 import { QuestionState } from '@prisma/client';
 import { FiInbox, FiStar } from 'react-icons/fi';
 
-import { PresentationProvider } from '@/components/providers';
 import { isPresentationCurrent } from '@/lib/presentation.utils';
+import { PresentationProvider } from '@/providers';
 import { prisma } from '@/server-lib/prisma';
 import QuestionGrid from '@/ui/dashboard/presentation/question-grid';
 import { TimeCard } from '@/ui/dashboard/presentation/time-card';

@@ -2,7 +2,7 @@
 import { type Question, QuestionState } from '@prisma/client';
 import { useContext, useState } from 'react';
 
-import { PresentationContext } from '@/components/providers';
+import { PresentationContext } from '@/providers';
 import { CreateQuestionCardForm } from '@/ui/dashboard/presentation/create-question-card-form';
 import { QuestionFilterSwitch } from '@/ui/dashboard/presentation/question-filter-switch';
 import { QuestionCard } from '@/ui/dashboard/question-card';

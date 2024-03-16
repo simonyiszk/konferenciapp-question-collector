@@ -22,7 +22,7 @@ export function QuestionCard({ question }: { question: Question }) {
         className="grid grid-cols-8 grid-rows-2 items-center justify-items-center gap-y-2 p-6 pb-3 xl:grid-cols-12"
       >
         <input className="hidden" type="hidden" name="id" value={question.id} />
-        <FiUser className="row-start-1 h-6 w-6 justify-self-start" />
+        <FiUser className="row-start-1 h-6 w-6 justify-self-start overflow-x-hidden" />
 
         <p
           title={question.userId}
@@ -37,9 +37,11 @@ export function QuestionCard({ question }: { question: Question }) {
           </ClipBoard>
         </button>
 
-        <button className="col-start-6 h-6 text-gray-500 hover:text-red-400 xl:col-span-6 xl:col-start-1 xl:w-28 xl:justify-self-start">
-          <FiUserMinus className="block w-6 xl:hidden" />
-          <span className="w-100 hidden xl:block">tiltólistára</span>
+        <button className="col-start-6 text-gray-500 hover:text-red-400 xl:col-span-6 xl:col-start-1 xl:w-28 xl:justify-self-start">
+          <FiUserMinus className="block xl:hidden" />
+          <span className="w-100 hidden pl-1 text-left xl:block">
+            tiltólistára
+          </span>
         </button>
 
         <button
@@ -47,7 +49,7 @@ export function QuestionCard({ question }: { question: Question }) {
           type="submit"
           name="mark"
           value={isHidden ? QuestionState.NONE : QuestionState.HIDDEN}
-          className={`h-6 w-6 xl:col-start-10 xl:row-start-1 xl:justify-self-end ${
+          className={`xl:col-start-10 xl:row-start-1 ${
             isHidden
               ? 'text-red-500 hover:text-gray-700'
               : 'text-gray-500 hover:text-red-700'
@@ -57,7 +59,7 @@ export function QuestionCard({ question }: { question: Question }) {
         </button>
 
         <button
-          className={`h-6 w-6 xl:col-start-11 xl:row-start-1 xl:justify-self-end ${
+          className={`xl:col-start-11 xl:row-start-1 ${
             isSelected ? 'text-yellow-500' : 'text-gray-500'
           } hover:text-yellow-600`}
           title="megjelölés"
@@ -68,7 +70,7 @@ export function QuestionCard({ question }: { question: Question }) {
           <FiStar />
         </button>
 
-        <p className="col-span-3 row-start-2 justify-self-start  text-sm text-gray-500 xl:col-span-4 xl:col-start-9 xl:justify-self-end">
+        <p className="col-span-3 row-start-2 justify-self-start text-sm text-gray-500 xl:col-span-4 xl:col-start-9 xl:justify-self-end xl:pr-1.5">
           <TimeAgo time={question.createdAt} tick={1000} />
         </p>
       </form>

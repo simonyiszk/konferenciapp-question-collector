@@ -4,6 +4,7 @@ import { QuestionState } from '@prisma/client';
 import { validate } from 'class-validator';
 import { revalidatePath } from 'next/cache';
 
+import { PresentationQuestionService } from '@/app/api/presentation/[id]/question/service';
 import { prisma } from '@/server-lib/prisma';
 import { PresentationDto } from '@/types/CMSCH';
 
@@ -65,5 +66,27 @@ export async function updatePresentations() {
       }),
     );
   await Promise.all(actions);
+  revalidatePath('/dashboard');
+}
+
+const questionService = new PresentationQuestionService();
+
+export async function createSelectedQuestion(formData: FormData) {
+  const { errors, data } = await questionService.validate(
+    formData.get('presentationId')?.toString() || '',
+    {
+      content: formData.get('content')?.toString() || '',
+      userId: 'Admin',
+    },
+  );
+
+  if (errors || !data) {
+    throw new Error('Invalid question data: ' + JSON.stringify(errors));
+  }
+
+  await questionService.create({
+    ...data,
+    selected: true,
+  });
   revalidatePath('/dashboard');
 }

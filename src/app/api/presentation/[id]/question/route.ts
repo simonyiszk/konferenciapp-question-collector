@@ -6,7 +6,10 @@ import {
   InternalServerErrorResponse,
   OkResponse,
 } from '@/server-lib/responses';
-import { CreateQuestionInput } from '@/types/CreateQuestionsDto';
+import {
+  CreateQuestionDto,
+  CreateQuestionInput,
+} from '@/types/CreateQuestionsDto';
 
 export async function GET(
   req: Request,
@@ -33,7 +36,7 @@ export async function POST(
   { params }: { params: { id: string } },
 ) {
   const data = CreateQuestionInput.fromPlain({
-    ...(await req.json()),
+    ...((await req.json()) as CreateQuestionDto),
     presentationId: params.id,
   });
 

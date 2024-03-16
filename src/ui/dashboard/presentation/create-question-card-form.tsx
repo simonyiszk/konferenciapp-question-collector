@@ -9,7 +9,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { createSelectedQuestion } from '@/server-lib/actions';
 
-export async function CreateQuestionCardForm({
+export function CreateQuestionCardForm({
   presentationId,
 }: {
   presentationId: string;

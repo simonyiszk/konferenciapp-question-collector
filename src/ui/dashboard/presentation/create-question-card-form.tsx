@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -14,9 +16,17 @@ export function CreateQuestionCardForm({
 }: {
   presentationId: string;
 }) {
+  const ref = useRef<HTMLFormElement>(null);
+
   return (
     <Card className="bg-white shadow-md">
-      <form action={createSelectedQuestion}>
+      <form
+        ref={ref}
+        action={async (formData) => {
+          await createSelectedQuestion(formData);
+          ref.current?.reset();
+        }}
+      >
         <input type="hidden" name="presentationId" value={presentationId} />
         <div className="flex h-full flex-col">
           <CardHeader>

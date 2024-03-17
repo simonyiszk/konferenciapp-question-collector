@@ -13,11 +13,21 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { PageRoot } from '@/types/route';
 
 import { SideNavPresentationItem } from './sidenav-presentation-item';
 
-export function SideNav({ presentations }: { presentations: Presentation[] }) {
+export function SideNav({
+  presentations,
+  variant,
+}: {
+  presentations: Presentation[];
+  variant: PageRoot;
+}) {
   const [open, setOpen] = useState(false);
+
+  const rootHref = PageRoot.asHref(variant);
+
   return (
     <>
       <div className="top-0 mx-10 mt-5 h-fit lg:hidden">
@@ -52,7 +62,7 @@ export function SideNav({ presentations }: { presentations: Presentation[] }) {
         )}
       >
         <div className="flex w-full items-center justify-between gap-5 rounded-br-lg bg-white p-5 shadow-md shadow-slate-500/10">
-          <Link passHref href="/dashboard">
+          <Link passHref href={rootHref}>
             <Button>
               <FiHome />
             </Button>
@@ -71,24 +81,26 @@ export function SideNav({ presentations }: { presentations: Presentation[] }) {
             <SideNavPresentationItem
               key={presentation.id}
               presentation={presentation}
-              href={`/dashboard/presentation/${presentation.id}`}
+              href={`${rootHref}/presentation/${presentation.id}`}
             />
           ))}
         </div>
-        <div className="w-full rounded-tr-lg bg-white p-2 shadow-md shadow-slate-500/10">
-          <Link passHref href="/dashboard">
-            <Button variant="outline" className="mb-2 w-full">
-              <FiHome />
-              Home
-            </Button>
-          </Link>
-          <Link href="/dashboard/banned" passHref>
-            <Button variant="outline" className="w-full">
-              <FiUsers />
-              Kitiltott felhasználók
-            </Button>
-          </Link>
-        </div>
+        {variant === PageRoot.admin ? (
+          <div className="w-full rounded-tr-lg bg-white p-2 shadow-md shadow-slate-500/10">
+            <Link passHref href="/dashboard">
+              <Button variant="outline" className="mb-2 w-full">
+                <FiHome />
+                Home
+              </Button>
+            </Link>
+            <Link href="/dashboard/banned" passHref>
+              <Button variant="outline" className="w-full">
+                <FiUsers />
+                Kitiltott felhasználók
+              </Button>
+            </Link>
+          </div>
+        ) : null}
       </div>
     </>
   );

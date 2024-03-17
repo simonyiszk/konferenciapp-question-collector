@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui/button';
+import { updatePresentations } from '@/server-lib/actions';
 import { prisma } from '@/server-lib/prisma';
 import { PageRoot } from '@/types/route';
 import { SignOutForm } from '@/ui/dashboard/signout-form';
@@ -12,7 +14,12 @@ export default async function Page() {
 
   return (
     <main className="flex h-fit flex-col space-y-10 p-10">
-      <SignOutForm />
+      <div className="flex flex-col space-y-2">
+        <SignOutForm />
+        <form action={updatePresentations}>
+          <Button type="submit">Előadások frissítése</Button>
+        </form>
+      </div>
       <PresentationWidgets presentations={presentations} pageRoot={pageRoot} />
     </main>
   );

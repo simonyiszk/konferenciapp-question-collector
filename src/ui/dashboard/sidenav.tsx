@@ -36,8 +36,20 @@ export default function SideNav({
         <hr className="mt-4 block h-1 w-32 rounded-lg bg-gray-300" />
       </div>
       <div
+        onClick={() => setOpen(false)}
         className={cn(
-          'absolute bottom-0 left-0 top-0 flex h-full w-[400px] max-w-full flex-col items-center overflow-hidden bg-slate-200 shadow-lg shadow-slate-500/10 transition-transform lg:relative lg:translate-x-0',
+          'absolute bottom-0 left-0 right-0 top-0 z-10 h-screen w-screen bg-black/50',
+          {
+            hidden: !open,
+          },
+        )}
+      />
+      <div
+        onClick={(e) => {
+          if ((e.target as HTMLElement).closest('a')) setOpen(false);
+        }}
+        className={cn(
+          'absolute bottom-0 left-0 top-0 z-10 flex h-full w-[400px] max-w-full flex-col items-center overflow-hidden bg-slate-200 shadow-lg shadow-slate-500/10 transition-transform lg:relative lg:translate-x-0',
           {
             '-translate-x-full': !open,
           },

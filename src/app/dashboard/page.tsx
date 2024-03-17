@@ -27,6 +27,7 @@ export default async function Page() {
       <ul>
         {currentPresentations.map((presentation) => (
           <SideNavPresentationItem
+            className="z-0"
             presentation={presentation}
             key={presentation.id}
           />

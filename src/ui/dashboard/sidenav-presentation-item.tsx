@@ -10,11 +10,14 @@ import {
 } from '@/lib/presentation.utils';
 import { cn } from '@/lib/utils';
 
+interface SideNavProps extends React.HTMLAttributes<HTMLElement> {
+  presentation: Presentation;
+}
+
 export default function SideNavPresentationItem({
   presentation,
-}: {
-  presentation: Presentation;
-}) {
+  className,
+}: SideNavProps) {
   const isPast = isPresentationPast(presentation);
   const presenterInitials = getInitials(presentation.presenterFullName);
   return (
@@ -24,6 +27,7 @@ export default function SideNavPresentationItem({
         {
           'opacity-50': isPast,
         },
+        className,
       )}
       href={`/dashboard/presentation/${presentation.id}`}
     >

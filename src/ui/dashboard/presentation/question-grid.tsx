@@ -1,18 +1,22 @@
 'use client';
-import { type Question, QuestionState } from '@prisma/client';
-import { useContext, useState } from 'react';
+import {
+  type Presentation,
+  type Question,
+  QuestionState,
+} from '@prisma/client';
+import { useState } from 'react';
 
-import { PresentationContext } from '@/providers';
 import { CreateQuestionCardForm } from '@/ui/dashboard/presentation/create-question-card-form';
 import { QuestionFilterSwitch } from '@/ui/dashboard/presentation/question-filter-switch';
 import { QuestionCard } from '@/ui/dashboard/question-card';
 
 export default function PresentationGrid({
   questions,
+  presentation,
 }: {
   questions: Question[];
+  presentation: Presentation;
 }) {
-  const presentation = useContext(PresentationContext);
   const [filter, setFilter] = useState<QuestionState>(QuestionState.NONE);
   const qs = questions.filter(
     (q) => filter === QuestionState.NONE || q.mark === filter,

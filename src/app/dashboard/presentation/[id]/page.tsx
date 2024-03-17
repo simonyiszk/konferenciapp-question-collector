@@ -1,7 +1,7 @@
 import { QuestionState } from '@prisma/client';
 import { FiInbox, FiStar } from 'react-icons/fi';
 
-import { isActiveNow } from '@/lib/utils';
+import { isPresentationCurrent } from '@/lib/presentation.utils';
 import { prisma } from '@/server-lib/prisma';
 import QuestionGrid from '@/ui/dashboard/presentation/question-grid';
 import { TimeCard } from '@/ui/dashboard/presentation/time-card';
@@ -26,7 +26,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   });
 
   if (!presentation) throw new Error('Invalid presentation id');
-  const isLive = isActiveNow(presentation);
 
   return (
     <main className="space-y-4 p-10">
@@ -37,7 +36,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             {presentation.room}
           </span>
         )}
-        {isLive && (
+        {isPresentationCurrent(presentation) && (
           <span className="rounded-full bg-green-500 p-1.5 px-4">Live</span>
         )}
       </div>

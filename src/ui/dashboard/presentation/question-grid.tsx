@@ -10,7 +10,7 @@ import { CreateQuestionCardForm } from '@/ui/dashboard/presentation/create-quest
 import { QuestionFilterSwitch } from '@/ui/dashboard/presentation/question-filter-switch';
 import { QuestionCard } from '@/ui/dashboard/question-card';
 
-export default function PresentationGrid({
+export function PresentationGrid({
   questions,
   presentation,
 }: {

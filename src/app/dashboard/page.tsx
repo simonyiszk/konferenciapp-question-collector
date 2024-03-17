@@ -5,8 +5,8 @@ import {
 } from '@/lib/presentation.utils';
 import { updatePresentations } from '@/server-lib/actions';
 import { prisma } from '@/server-lib/prisma';
-import SideNavPresentationItem from '@/ui/dashboard/sidenav-presentation-item';
-import SignOutForm from '@/ui/dashboard/signout-form';
+import { SideNavPresentationItem } from '@/ui/dashboard/sidenav-presentation-item';
+import { SignOutForm } from '@/ui/dashboard/signout-form';
 
 export const dynamic = 'force-dynamic';
 

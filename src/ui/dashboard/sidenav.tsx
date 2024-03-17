@@ -14,13 +14,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-import SideNavPresentationItem from './sidenav-presentation-item';
+import { SideNavPresentationItem } from './sidenav-presentation-item';
 
-export default function SideNav({
-  presentations,
-}: {
-  presentations: Presentation[];
-}) {
+export function SideNav({ presentations }: { presentations: Presentation[] }) {
   const [open, setOpen] = useState(false);
   return (
     <>

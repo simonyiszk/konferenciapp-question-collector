@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-export default function SignInForm() {
+export function SignInForm() {
   const { data: session, status, update: updateSession } = useSession();
   useEffect(() => {
     updateSession();

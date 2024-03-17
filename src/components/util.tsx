@@ -15,7 +15,7 @@ export function DisableSSR({
   return ssr ? fallback : children;
 }
 
-export default function ClipBoard({
+export function ClipBoard({
   content,
   children,
 }: {

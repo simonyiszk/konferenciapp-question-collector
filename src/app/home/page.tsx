@@ -1,4 +1,4 @@
-import AuthButton from '@/ui/home/signin-form';
+import { SignInForm } from '@/ui/home/signin-form';
 
 export default function Page() {
   return (
@@ -6,7 +6,7 @@ export default function Page() {
       <h1 className="text-2xl">Simonyi Konferencia Előadói Kérdések</h1>
       <div className="flex flex-col items-center justify-center gap-6 rounded-lg bg-slate-100 p-5">
         <p>Jelentkezz be, hogy elérd a kezelői felületet!</p>
-        <AuthButton />
+        <SignInForm />
       </div>
     </main>
   );

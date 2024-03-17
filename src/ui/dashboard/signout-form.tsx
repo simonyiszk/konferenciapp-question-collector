@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 export interface SignOutFormProps
   extends React.HTMLAttributes<HTMLFormElement> {}
 
-export default function SignOutForm(props: SignOutFormProps) {
+export function SignOutForm(props: SignOutFormProps) {
   const { data: session, update: updateSession } = useSession();
   useEffect(() => {
     updateSession();

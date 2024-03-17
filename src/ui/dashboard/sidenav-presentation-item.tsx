@@ -14,7 +14,7 @@ interface SideNavProps extends React.HTMLAttributes<HTMLElement> {
   presentation: Presentation;
 }
 
-export default function SideNavPresentationItem({
+export function SideNavPresentationItem({
   presentation,
   className,
 }: SideNavProps) {

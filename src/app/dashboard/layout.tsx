@@ -1,5 +1,5 @@
 import { prisma } from '@/server-lib/prisma';
-import SideNav from '@/ui/dashboard/sidenav';
+import { SideNav } from '@/ui/dashboard/sidenav';
 
 export const dynamic = 'force-dynamic';
 

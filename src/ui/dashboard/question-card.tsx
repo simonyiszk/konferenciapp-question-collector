@@ -7,7 +7,7 @@ import {
   FiUserMinus,
 } from 'react-icons/fi';
 
-import ClipBoard from '@/components/util';
+import { ClipBoard } from '@/components/util';
 import { setQuestionMark } from '@/server-lib/actions';
 import { TimeAgo } from '@/ui/dashboard/time-ago';
 

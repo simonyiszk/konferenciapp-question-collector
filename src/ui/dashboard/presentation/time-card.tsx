@@ -7,12 +7,11 @@ import { StatsCard } from '@/ui/dashboard/stats-card';
 import { TimeAgo, toLocale } from '@/ui/dashboard/time-ago';
 
 export function TimeCard({ start, end }: { start: Date; end: Date }) {
-  const [_tick, setTick] = useState(0);
+  const [now, setNow] = useState(new Date());
   useEffect(() => {
-    const intervalId = setInterval((t) => setTick(t + 1), 1000);
+    const intervalId = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(intervalId);
   });
-  const now = new Date();
   const before = now < start;
   const during = now < end;
 

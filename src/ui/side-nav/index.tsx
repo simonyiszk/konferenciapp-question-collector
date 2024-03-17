@@ -82,7 +82,11 @@ export function SideNav({
               <FiHome />
             </Button>
           </Link>
-          <h1 className="truncate text-xl">Simonyi Konferencia</h1>
+
+          <Link href="/">
+            <h1 className="truncate text-xl">Simonyi Konferencia</h1>
+          </Link>
+
           <button
             onClick={() => setOpen(false)}
             className="block rounded-full border border-slate-200 p-2 hover:bg-slate-200 lg:invisible"

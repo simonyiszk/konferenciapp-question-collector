@@ -8,6 +8,9 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/',
   },
+  session: {
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   providers: [
     Google({
       clientId: GOOGLE_CLIENT_ID,

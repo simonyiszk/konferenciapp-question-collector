@@ -2,7 +2,7 @@ import { Presentation } from '@prisma/client';
 import { differenceInMinutes, isAfter, isBefore } from 'date-fns';
 
 function getCurrentDate() {
-  return new Date('2024-03-19T13:50:00Z');
+  return new Date();
 }
 
 export function isPresentationPast(presentation: Presentation) {

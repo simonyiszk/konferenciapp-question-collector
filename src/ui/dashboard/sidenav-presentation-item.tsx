@@ -1,4 +1,5 @@
 import { type Presentation } from '@prisma/client';
+import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -42,7 +43,8 @@ export default function SideNavPresentationItem({
       <div className="mx-2 flex-1 flex-col gap-2 overflow-hidden">
         <p className="truncate">{presentation.title}</p>
         <p className="text-slate-500">
-          {presentation.presenterFullName} • {presentation.room}
+          {presentation.presenterFullName} • {presentation.room} •{' '}
+          {format(new Date(presentation.start), 'HH:mm')}
         </p>
       </div>
       <PresentationStatusIndicator presentation={presentation} />

@@ -17,7 +17,9 @@ export default function SignOutForm(props: SignOutFormProps) {
   return (
     <form {...props}>
       <div className="space-y-4">
-        <h1>Üdv {session?.user?.email ?? 'Ismeretlen'}!</h1>
+        <h1 className="truncate">
+          Üdv {session?.user?.email ?? 'Ismeretlen'}!
+        </h1>
         <Button variant="outline" onClick={() => signOut({ callbackUrl: '/' })}>
           Kijelentkezés
         </Button>

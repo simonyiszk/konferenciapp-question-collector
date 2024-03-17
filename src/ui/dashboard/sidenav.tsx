@@ -24,7 +24,7 @@ export default function SideNav({
   const [open, setOpen] = useState(false);
   return (
     <>
-      <div className="sticky top-0 mx-10 mt-5 lg:hidden">
+      <div className="top-0 mx-10 mt-5 h-fit lg:hidden">
         <Button
           className="gap-0"
           variant="outline"

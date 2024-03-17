@@ -32,10 +32,7 @@ model Presentation {
 model User {
   id            String     @id @unique
   createdAt     DateTime   @default(now())
-  blacklistedAt DateTime?
   questions     Question[]
-
-  @@index([blacklistedAt])
 }
 
 enum QuestionState {

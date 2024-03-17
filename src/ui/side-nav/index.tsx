@@ -8,7 +8,6 @@ import {
   FiChevronRight,
   FiHome,
   FiSidebar,
-  FiUsers,
 } from 'react-icons/fi';
 
 import { Button } from '@/components/ui/button';
@@ -104,22 +103,15 @@ export function SideNav({
             />
           ))}
         </div>
-        {variant === PageRoot.admin ? (
-          <div className="w-full rounded-tr-lg bg-white p-2 shadow-md shadow-slate-500/10">
-            <Link passHref href="/dashboard">
-              <Button variant="outline" className="mb-2 w-full">
-                <FiHome />
-                Home
-              </Button>
-            </Link>
-            <Link href="/dashboard/banned" passHref>
-              <Button variant="outline" className="w-full">
-                <FiUsers />
-                Kitiltott felhasználók
-              </Button>
-            </Link>
-          </div>
-        ) : null}
+
+        <div className="w-full rounded-tr-lg bg-white p-2 shadow-md shadow-slate-500/10">
+          <Link passHref href={rootHref}>
+            <Button variant="outline" className="mb-2 w-full">
+              <FiHome />
+              Home
+            </Button>
+          </Link>
+        </div>
       </div>
     </>
   );

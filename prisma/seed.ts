@@ -80,15 +80,6 @@ async function main() {
     }
   }
   await prisma.question.createMany({ data: questions });
-
-  await prisma.user.updateMany({
-    data: {
-      blacklistedAt: new Date(Date.now() - faker.number.int(5 * 60 * 1000)),
-    },
-    where: {
-      id: { in: faker.helpers.arrayElements(users, 3) },
-    },
-  });
 }
 
 main()

@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     include: {
       questions: {
         orderBy: { createdAt: 'asc' },
-        where: { mark: QuestionState.SELECTED, user: { blacklistedAt: null } },
+        where: { mark: QuestionState.SELECTED },
       },
     },
   });

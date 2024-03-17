@@ -20,7 +20,6 @@ export default async function Page({ params }: { params: { id: string } }) {
       questions: {
         orderBy: { createdAt: 'asc' },
         include: { user: true },
-        where: { user: { blacklistedAt: null } },
       },
     },
   });

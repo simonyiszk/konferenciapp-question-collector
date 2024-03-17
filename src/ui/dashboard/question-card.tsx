@@ -1,11 +1,5 @@
 import { Question, QuestionState } from '@prisma/client';
-import {
-  FiClipboard,
-  FiStar,
-  FiTrash,
-  FiUser,
-  FiUserMinus,
-} from 'react-icons/fi';
+import { FiClipboard, FiStar, FiTrash, FiUser } from 'react-icons/fi';
 
 import { ClipBoard } from '@/components/util';
 import { setQuestionMark } from '@/server-lib/actions';
@@ -37,10 +31,9 @@ export function QuestionCard({ question }: { question: Question }) {
           </ClipBoard>
         </button>
 
-        <button className="col-start-6 h-6 text-gray-500 hover:text-red-400 xl:col-span-6 xl:col-start-1 xl:w-28 xl:justify-self-start">
-          <FiUserMinus className="block w-6 xl:hidden" />
-          <span className="w-100 hidden xl:block">tiltólistára</span>
-        </button>
+        <span className="col-start-6 h-6 text-gray-500 hover:text-red-400 xl:col-span-6 xl:col-start-1 xl:w-28 xl:justify-self-start">
+          {/* placeholder for the removed blacklist button*/}
+        </span>
 
         <button
           title="elrejtés"

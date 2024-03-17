@@ -30,6 +30,7 @@ export default async function Page() {
             className="z-0"
             presentation={presentation}
             key={presentation.id}
+            href={`/dashboard/presentation/${presentation.id}`}
           />
         ))}
       </ul>
@@ -39,6 +40,7 @@ export default async function Page() {
           <SideNavPresentationItem
             presentation={presentation}
             key={presentation.id}
+            href={`/dashboard/presentation/${presentation.id}`}
           />
         ))}
       </ul>

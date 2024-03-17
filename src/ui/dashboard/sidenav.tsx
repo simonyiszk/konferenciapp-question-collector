@@ -71,6 +71,7 @@ export function SideNav({ presentations }: { presentations: Presentation[] }) {
             <SideNavPresentationItem
               key={presentation.id}
               presentation={presentation}
+              href={`/dashboard/presentation/${presentation.id}`}
             />
           ))}
         </div>

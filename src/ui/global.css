@@ -21,3 +21,21 @@ h3 {
 p {
   @apply text-slate-800;
 }
+
+@keyframes pulse-animation {
+  0% {
+    opacity: 0.6;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.pulse>* {
+  animation: pulse-animation 1s infinite ease-in-out;
+}

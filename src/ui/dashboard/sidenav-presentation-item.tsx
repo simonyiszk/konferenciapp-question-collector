@@ -69,7 +69,7 @@ export function PresentationStatusIndicator({
   const isUpcoming = isPresentationUpcoming(presentation);
   return (
     <div
-      className={cn('rounded-full p-1', {
+      className={cn('pulse rounded-full p-1', {
         hidden: !isCurrent && !isUpcoming,
         'bg-yellow-400/30': isUpcoming,
         'bg-green-400/30': isCurrent,

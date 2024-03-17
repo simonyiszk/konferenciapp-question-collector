@@ -6,6 +6,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { PageRoot } from '@/types/route';
 
 export function SignInForm() {
   const { data: session, status, update: updateSession } = useSession();
@@ -39,7 +40,7 @@ export function SignInForm() {
       )}
       {status === 'loading' && <p className="h-10 font-bold">Loading...</p>}
       {status === 'authenticated' && (
-        <Link href="/dashboard">
+        <Link href={PageRoot.asHref(PageRoot.admin)}>
           <Button className="w-full bg-blue-500 hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600">
             <span>{session?.user?.email ?? ' '}</span>
             <ArrowRightIcon className="ml-auto w-5  md:w-6" />

@@ -2,6 +2,11 @@ import { type Presentation } from '@prisma/client';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import {
+  isPresentationCurrent,
+  isPresentationPast,
+  isPresentationUpcoming,
+} from '@/lib/presentation.utils';
 import { cn } from '@/lib/utils';
 
 export default function SideNavPresentationItem({
@@ -9,11 +14,15 @@ export default function SideNavPresentationItem({
 }: {
   presentation: Presentation;
 }) {
+  const isPast = isPresentationPast(presentation);
   const presenterInitials = getInitials(presentation.presenterFullName);
   return (
     <Link
       className={cn(
-        'relative mb-5 flex items-center overflow-hidden rounded-xl bg-white p-3 shadow-md shadow-slate-500/10 active:bg-slate-50 dark:bg-slate-800 active:dark:bg-slate-700',
+        'relative mb-5 flex items-center overflow-hidden rounded-xl bg-white p-3 shadow-md shadow-slate-500/10 hover:bg-slate-50 dark:bg-slate-800 hover:dark:bg-slate-700',
+        {
+          'opacity-50': isPast,
+        },
       )}
       href={`/dashboard/presentation/${presentation.id}`}
     >
@@ -36,6 +45,7 @@ export default function SideNavPresentationItem({
           {presentation.presenterFullName} • {presentation.room}
         </p>
       </div>
+      <PresentationStatusIndicator presentation={presentation} />
     </Link>
   );
 }
@@ -46,4 +56,31 @@ function getInitials(name: string) {
     .map((n) => n[0])
     .slice(0, 3)
     .join('');
+}
+
+interface PresentationStatusIndicatorProps {
+  presentation: Presentation;
+}
+
+export function PresentationStatusIndicator({
+  presentation,
+}: PresentationStatusIndicatorProps) {
+  const isCurrent = isPresentationCurrent(presentation);
+  const isUpcoming = isPresentationUpcoming(presentation);
+  return (
+    <div
+      className={cn('rounded-full p-1', {
+        hidden: !isCurrent && !isUpcoming,
+        'bg-yellow-400/30': isUpcoming,
+        'bg-green-400/30': isCurrent,
+      })}
+    >
+      <div
+        className={cn('h-5 w-5 rounded-full', {
+          'bg-yellow-400': isUpcoming,
+          'bg-green-400': isCurrent,
+        })}
+      />
+    </div>
+  );
 }

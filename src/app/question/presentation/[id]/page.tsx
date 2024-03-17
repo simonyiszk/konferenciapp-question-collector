@@ -6,7 +6,7 @@ import { isPresentationCurrent } from '@/lib/presentation.utils';
 import { prisma } from '@/server-lib/prisma';
 import { TimeCard } from '@/ui/dashboard/presentation/time-card';
 import { StatsCard } from '@/ui/dashboard/stats-card';
-import { ReadonlyCards } from '@/ui/question/presentation/[id]/readonly-question-grid';
+import { ReadonlyQuestionGrid } from '@/ui/question/presentation/[id]/readonly-question-grid';
 
 export default async function Page({ params }: { params: { id: string } }) {
   if (!params.id) {
@@ -46,7 +46,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       />
       <span className="mb-4 mt-4 block h-1 w-32 rounded-lg bg-gray-300" />
 
-      <ReadonlyCards questions={questions} />
+      <ReadonlyQuestionGrid questions={questions} />
     </main>
   );
 }

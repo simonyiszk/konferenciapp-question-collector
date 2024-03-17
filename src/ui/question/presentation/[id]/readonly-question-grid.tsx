@@ -1,22 +1,49 @@
+'use client';
 import { type Question } from '@prisma/client';
+import { useEffect, useRef, useState } from 'react';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
-export function ReadonlyCards({ questions }: { questions: Question[] }) {
+export function ReadonlyQuestionGrid({ questions }: { questions: Question[] }) {
+  const firstRender = useRef(true);
+  const [notAnimated, setNotAnimated] = useState<number[]>([]);
+  useEffect(() => {
+    let it: any;
+    if (firstRender.current) {
+      firstRender.current = false;
+      it = setTimeout(() => setNotAnimated(questions.map((q) => q.id)), 50);
+    }
+    return () => {
+      firstRender.current = true;
+      clearTimeout(it);
+    };
+  }, []);
   return (
     <div className="mt-6 grid grid-cols-1 gap-8 xl:grid-cols-2 ">
       {questions.map((q) => (
-        <ReadonlyCard key={q.id} question={q} />
+        <ReadonlyCard
+          key={q.id}
+          question={q}
+          animate={!firstRender.current && !notAnimated.includes(q.id)}
+        />
       ))}
     </div>
   );
 }
 
-function ReadonlyCard({ question }: { question: Question }) {
+function ReadonlyCard({
+  question,
+  animate,
+}: {
+  question: Question;
+  animate: boolean;
+}) {
   return (
     <Card
       key={question.id}
-      className="rounded-md bg-white p-2 duration-1000 hover:shadow-md"
+      className={`custom-card rounded-md bg-white p-2 duration-1000 hover:shadow-md ${
+        animate ? 'animate-[backInRight]' : 'animate-none'
+      }`}
     >
       <CardHeader className="py-5 text-lg font-bold">Kérdés</CardHeader>
       <CardContent className="break-normal text-justify">

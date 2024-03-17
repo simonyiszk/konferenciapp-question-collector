@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     where: { id: params.id },
     include: {
       questions: {
-        orderBy: { createdAt: 'asc' },
+        orderBy: [{ updatedAt: 'asc' }, { createdAt: 'asc' }],
         where: { mark: QuestionState.SELECTED },
       },
     },

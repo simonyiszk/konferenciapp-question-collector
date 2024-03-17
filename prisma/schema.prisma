@@ -30,9 +30,9 @@ model Presentation {
 }
 
 model User {
-  id            String     @id @unique
-  createdAt     DateTime   @default(now())
-  questions     Question[]
+  id        String     @id @unique
+  createdAt DateTime   @default(now())
+  questions Question[]
 }
 
 enum QuestionState {
@@ -50,6 +50,7 @@ model Question {
   presentation   Presentation  @relation(fields: [presentationId], references: [id])
   content        String
   mark           QuestionState @default(NONE)
+  updatedAt      DateTime      @updatedAt
   createdAt      DateTime      @default(now())
 
   @@index([presentationId, createdAt])

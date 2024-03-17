@@ -16,15 +16,12 @@ export default function SignOutForm(props: SignOutFormProps) {
 
   return (
     <form {...props}>
-      <h1 className="mb-2 text-xl md:text-2xl">
-        Üdv {session?.user?.email ?? 'Ismeretlen'}!
-      </h1>
-      <Button
-        variant="destructive"
-        onClick={() => signOut({ callbackUrl: '/' })}
-      >
-        <div className="hidden md:block">Kijelentkezés</div>
-      </Button>
+      <div className="space-y-4">
+        <h1>Üdv {session?.user?.email ?? 'Ismeretlen'}!</h1>
+        <Button variant="outline" onClick={() => signOut({ callbackUrl: '/' })}>
+          Kijelentkezés
+        </Button>
+      </div>
     </form>
   );
 }

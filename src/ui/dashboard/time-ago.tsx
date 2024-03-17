@@ -60,15 +60,18 @@ export function timeDifference({
 
   const prefixed = (n: number) => (n < 10 ? '0' : '') + n;
 
-  // first N non-zero values
-  arr.splice(
-    0,
-    arr.findIndex((x) => x.value > 0),
-  );
-  const human = arr
-    .slice(0, humanPrecision)
-    .map(({ unit, value }) => prefixed(value) + unit)
-    .join('');
+  let human = '00s';
+  if (arr.some((x) => x.value !== 0)) {
+    // first N non-zero values
+    arr.splice(
+      0,
+      arr.findIndex((x) => x.value > 0),
+    );
+    human = arr
+      .slice(0, humanPrecision)
+      .map(({ unit, value }) => prefixed(value) + unit)
+      .join('');
+  }
 
   return { human, day, hour, minute, second };
 }

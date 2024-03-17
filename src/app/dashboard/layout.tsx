@@ -12,11 +12,9 @@ export default async function Layout({
     orderBy: [{ start: 'asc' }, { room: 'asc' }],
   });
   return (
-    <div className="flex flex-col md:h-screen md:flex-row md:overflow-hidden">
-      <div className="w-full flex-none md:w-80 xl:w-96">
-        <SideNav presentations={presentations} />
-      </div>
-      <div className="flex-grow overflow-y-scroll p-6 md:p-12">{children}</div>
+    <div className="grid h-screen w-screen grid-cols-[400px_1fr] grid-rows-[1fr]">
+      <SideNav presentations={presentations} />
+      <div className="h-full w-full overflow-auto">{children}</div>
     </div>
   );
 }

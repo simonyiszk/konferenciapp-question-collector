@@ -1,11 +1,11 @@
-import {
-  ClipboardIcon,
-  StarIcon,
-  TrashIcon,
-  UserIcon,
-  UserMinusIcon,
-} from '@heroicons/react/24/outline';
 import { Question, QuestionState } from '@prisma/client';
+import {
+  FiClipboard,
+  FiStar,
+  FiTrash,
+  FiUser,
+  FiUserMinus,
+} from 'react-icons/fi';
 
 import ClipBoard from '@/components/util';
 import { setQuestionMark } from '@/server-lib/actions';
@@ -22,27 +22,23 @@ export function QuestionCard({ question }: { question: Question }) {
         className="grid grid-cols-8 grid-rows-2 items-center justify-items-center gap-y-2 p-6 pb-3 xl:grid-cols-12"
       >
         <input className="hidden" type="hidden" name="id" value={question.id} />
-        <UserIcon className="row-start-1 h-6 w-6 justify-self-start" />
+        <FiUser className="row-start-1 h-6 w-6 justify-self-start" />
 
-        <h3
+        <p
           title={question.userId}
           className="col-span-6 row-start-1 mx-1 max-w-[90%] overflow-x-hidden text-ellipsis whitespace-nowrap text-lg font-bold text-gray-800 xl:col-span-8 xl:mx-0 xl:justify-self-start"
         >
           {question.userId}
-        </h3>
+        </p>
 
-        <button
-          type="button"
-          title="másolás"
-          className="row-start-1 flex animate-none cursor-pointer items-center justify-center text-gray-500 hover:text-gray-700 focus:text-purple-400 xl:col-start-12 xl:justify-self-end"
-        >
+        <button type="button" title="másolás">
           <ClipBoard content={question.content}>
-            <ClipboardIcon className="h-6 w-6" />
+            <FiClipboard />
           </ClipBoard>
         </button>
 
         <button className="col-start-6 h-6 text-gray-500 hover:text-red-400 xl:col-span-6 xl:col-start-1 xl:w-28 xl:justify-self-start">
-          <UserMinusIcon className="block w-6 xl:hidden" />
+          <FiUserMinus className="block w-6 xl:hidden" />
           <span className="w-100 hidden xl:block">tiltólistára</span>
         </button>
 
@@ -57,7 +53,7 @@ export function QuestionCard({ question }: { question: Question }) {
               : 'text-gray-500 hover:text-red-700'
           } `}
         >
-          <TrashIcon />
+          <FiTrash />
         </button>
 
         <button
@@ -69,7 +65,7 @@ export function QuestionCard({ question }: { question: Question }) {
           name="mark"
           value={isSelected ? QuestionState.NONE : QuestionState.SELECTED}
         >
-          <StarIcon />
+          <FiStar />
         </button>
 
         <p className="col-span-3 row-start-2 justify-self-start  text-sm text-gray-500 xl:col-span-4 xl:col-start-9 xl:justify-self-end">

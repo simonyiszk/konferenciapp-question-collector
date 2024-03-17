@@ -1,5 +1,4 @@
 import { prisma } from '@/server-lib/prisma';
-import { lusitana } from '@/ui/fonts';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,14 +9,12 @@ export default async function Page() {
     include: { questions: { include: { presentation: true } } },
   });
   return (
-    <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Kitiltott felhasználók
-      </h1>
+    <main className="p-10">
+      <h1>Kitiltott felhasználók</h1>
       {/* Username as headline, then in time of creation and ban. After that display cards in Cards */}
       {blacklist.map((asker) => (
-        <div key={asker.id} className="mb-8">
-          <h2 className="text-xl font-semibold">👤 {asker.id}</h2>
+        <div key={asker.id} className="mb-5 space-y-2">
+          <h2 className="text-xl font-semibold">{asker.id}</h2>
           <div>
             <p className="text-sm text-gray-500">
               Létrehozva: {asker.createdAt.toLocaleString('hu-HU')}
@@ -29,7 +26,7 @@ export default async function Page() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {asker.questions.map((question, index) => (
               <div
-                className="border p-2"
+                className="rounded-md bg-white p-4 shadow-md"
                 key={index}
                 title={question.presentation.title}
               >

@@ -12,11 +12,13 @@ import { cn } from '@/lib/utils';
 
 interface SideNavProps extends React.HTMLAttributes<HTMLElement> {
   presentation: Presentation;
+  href: string;
 }
 
-export default function SideNavPresentationItem({
+export function SideNavPresentationItem({
   presentation,
   className,
+  href,
 }: SideNavProps) {
   const isPast = isPresentationPast(presentation);
   const presenterInitials = getInitials(presentation.presenterFullName);
@@ -29,7 +31,7 @@ export default function SideNavPresentationItem({
         },
         className,
       )}
-      href={`/dashboard/presentation/${presentation.id}`}
+      href={href}
     >
       {presentation.presenterAvatar ? (
         <Image

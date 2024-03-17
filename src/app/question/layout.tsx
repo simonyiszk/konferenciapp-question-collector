@@ -1,4 +1,3 @@
-import { WithSession } from '@/components/util';
 import { prisma } from '@/server-lib/prisma';
 import { PageRoot } from '@/types/route';
 import { SideNav } from '@/ui/dashboard/sidenav';
@@ -14,11 +13,11 @@ export default async function Layout({
     orderBy: [{ start: 'asc' }, { room: 'asc' }],
   });
   return (
-    <WithSession>
-      <div className="relative grid h-screen w-screen grid-cols-1 grid-rows-[min_1fr] overflow-hidden lg:grid-cols-[400px_1fr]">
-        <SideNav presentations={presentations} variant={PageRoot.admin} />
-        <div className="h-full w-full overflow-auto">{children}</div>
+    <div className="grid h-screen w-screen grid-cols-[400px_1fr] grid-rows-[1fr]">
+      <SideNav presentations={presentations} variant={PageRoot.readonly} />
+      <div className="h-full w-full overflow-x-auto overflow-y-scroll">
+        {children}
       </div>
-    </WithSession>
+    </div>
   );
 }

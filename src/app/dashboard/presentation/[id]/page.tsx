@@ -3,7 +3,7 @@ import { FiInbox, FiStar } from 'react-icons/fi';
 
 import { isPresentationCurrent } from '@/lib/presentation.utils';
 import { prisma } from '@/server-lib/prisma';
-import QuestionGrid from '@/ui/dashboard/presentation/question-grid';
+import { PresentationGrid } from '@/ui/dashboard/presentation/question-grid';
 import { TimeCard } from '@/ui/dashboard/presentation/time-card';
 import { StatsCard } from '@/ui/dashboard/stats-card';
 
@@ -54,7 +54,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </StatsCard>
       </div>
       <span className="mb-4 mt-4 block h-1 w-32 rounded-lg bg-gray-300" />
-      <QuestionGrid
+      <PresentationGrid
         presentation={presentation}
         questions={presentation.questions}
       />

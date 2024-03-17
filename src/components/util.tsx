@@ -1,13 +1,14 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { SessionProvider } from 'next-auth/react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 export function DisableSSR({
   children,
   fallback = null,
 }: {
-  children: React.ReactNode;
-  fallback?: React.ReactNode | null;
+  children: ReactNode;
+  fallback?: ReactNode | null;
 }) {
   const [ssr, setSSR] = useState(true);
   useEffect(() => setSSR(false), []);
@@ -15,12 +16,12 @@ export function DisableSSR({
   return ssr ? fallback : children;
 }
 
-export default function ClipBoard({
+export function ClipBoard({
   content,
   children,
 }: {
   content: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <span onClick={() => navigator.clipboard.writeText(content)}>
@@ -34,7 +35,7 @@ export function PeriodicReloader({
   children,
 }: {
   interval: number;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const router = useRouter();
   const [tick, setTick] = useState(0);
@@ -48,4 +49,8 @@ export function PeriodicReloader({
     () => clearTimeout(t);
   }, [tick]);
   return children;
+}
+
+export function WithSession({ children }: { children: ReactNode }) {
+  return <SessionProvider>{children}</SessionProvider>;
 }

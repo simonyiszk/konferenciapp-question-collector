@@ -21,6 +21,7 @@ export function CreateQuestionCardForm({
   return (
     <Card className="bg-white shadow-md">
       <form
+        className="h-full"
         ref={ref}
         action={async (formData) => {
           await createSelectedQuestion(formData);

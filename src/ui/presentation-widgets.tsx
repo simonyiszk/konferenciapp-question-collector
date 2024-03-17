@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { isPresentationCurrent } from '@/lib/presentation.utils';
 import { PageRoot } from '@/types/route';
-import { SideNavPresentationItem } from '@/ui/dashboard/sidenav-presentation-item';
+import { PresentationItem } from '@/ui/presentation-item';
 
 export function PresentationWidgets({
   presentations,
@@ -18,7 +18,7 @@ export function PresentationWidgets({
     .slice(0, 4);
 
   const toWidget = (presentation: Presentation) => (
-    <SideNavPresentationItem
+    <PresentationItem
       presentation={presentation}
       key={presentation.id}
       href={`${PageRoot.asHref(pageRoot)}/presentation/${presentation.id}`}

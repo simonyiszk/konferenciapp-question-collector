@@ -10,16 +10,16 @@ import {
 } from '@/lib/presentation.utils';
 import { cn } from '@/lib/utils';
 
-interface SideNavProps extends React.HTMLAttributes<HTMLElement> {
+interface PresentationItemProps extends React.HTMLAttributes<HTMLElement> {
   presentation: Presentation;
   href: string;
 }
 
-export function SideNavPresentationItem({
+export function PresentationItem({
   presentation,
   className,
   href,
-}: SideNavProps) {
+}: PresentationItemProps) {
   const isPast = isPresentationPast(presentation);
   const presenterInitials = getInitials(presentation.presenterFullName);
   return (

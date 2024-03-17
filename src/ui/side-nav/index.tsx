@@ -15,7 +15,22 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { PageRoot } from '@/types/route';
 
-import { SideNavPresentationItem } from './sidenav-presentation-item';
+import { PresentationItem } from '../presentation-item';
+
+export function SideNavLayout({
+  children,
+  main,
+}: {
+  main: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="relative grid h-screen w-screen grid-cols-1 grid-rows-[4rem_1fr] overflow-hidden lg:grid-cols-[400px_1fr] lg:grid-rows-none">
+      {children}
+      <div className="h-full w-full overflow-auto">{main}</div>
+    </div>
+  );
+}
 
 export function SideNav({
   presentations,
@@ -78,7 +93,7 @@ export function SideNav({
 
         <div className="w-full flex-1 overflow-y-scroll p-4">
           {presentations.map((presentation) => (
-            <SideNavPresentationItem
+            <PresentationItem
               key={presentation.id}
               presentation={presentation}
               href={`${rootHref}/presentation/${presentation.id}`}

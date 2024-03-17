@@ -54,7 +54,10 @@ export default async function Page({ params }: { params: { id: string } }) {
         </StatsCard>
       </div>
       <span className="mb-4 mt-4 block h-1 w-32 rounded-lg bg-gray-300" />
-      <QuestionGrid questions={presentation.questions} />
+      <QuestionGrid
+        presentation={presentation}
+        questions={presentation.questions}
+      />
     </main>
   );
 }

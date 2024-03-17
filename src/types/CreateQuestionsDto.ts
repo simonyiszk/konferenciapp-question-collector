@@ -18,7 +18,7 @@ export class CreateQuestionInput {
   @IsString()
   presentationId!: string;
 
-  static fromPlain(plain: CreateQuestionDto) {
+  static fromPlain(plain: CreateQuestionDto & { presentationId: string }) {
     return plainToInstance(CreateQuestionInput, plain);
   }
 }

@@ -73,6 +73,5 @@ export function timeDifference({
       .join('');
   }
 
-
   return { human, day, hour, minute, second };
 }

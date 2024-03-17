@@ -15,8 +15,13 @@ export default async function SideNav({
 }) {
   return (
     <div className="flex h-full w-[400px] flex-col items-center overflow-hidden bg-slate-200 shadow-inner shadow-slate-500/10">
-      <div className="flex w-full items-center justify-center rounded-br-lg bg-white p-5 shadow-md shadow-slate-500/10">
-        <Link href="/dashboard">Simonyi Konferencia</Link>
+      <div className="flex w-full items-center gap-10 rounded-br-lg bg-white p-5 shadow-md shadow-slate-500/10">
+        <Link passHref href="/dashboard">
+          <Button>
+            <FiHome />
+          </Button>
+        </Link>
+        <h1 className="text-xl">Simonyi Konferencia</h1>
       </div>
 
       <div className="w-full flex-1 overflow-y-scroll p-4">

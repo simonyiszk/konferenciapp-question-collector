@@ -1,5 +1,6 @@
 'use client';
 import { type Question } from '@prisma/client';
+import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -42,9 +43,9 @@ function ReadonlyCard({
   return (
     <Card
       key={question.id}
-      className={`custom-card rounded-md bg-white p-2 duration-1000 hover:shadow-md ${
-        animate ? 'animate-[backInRight]' : 'animate-none'
-      }`}
+      className={clsx('rounded-md bg-white p-2 shadow-md duration-1000', {
+        'animate-[backInRight]': animate,
+      })}
     >
       <CardHeader className="py-5 text-lg font-bold">Kérdés</CardHeader>
       <CardContent className="max-h-60 overflow-y-auto break-normal text-justify">

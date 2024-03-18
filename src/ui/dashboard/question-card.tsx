@@ -1,4 +1,5 @@
 import { Question, QuestionState } from '@prisma/client';
+import clsx from 'clsx';
 import { FiClipboard, FiStar, FiTrash, FiUser } from 'react-icons/fi';
 
 import { ClipBoard } from '@/components/util';
@@ -40,19 +41,21 @@ export function QuestionCard({ question }: { question: Question }) {
           type="submit"
           name="mark"
           value={isHidden ? QuestionState.NONE : QuestionState.HIDDEN}
-          className={`h-6 w-6 xl:col-start-10 xl:row-start-1 xl:justify-self-end ${
+          className={clsx(
+            'h-6 w-6 xl:col-start-10 xl:row-start-1 xl:justify-self-end',
             isHidden
               ? 'text-red-500 hover:text-gray-700'
-              : 'text-gray-500 hover:text-red-700'
-          } `}
+              : 'text-gray-500 hover:text-red-700',
+          )}
         >
           <FiTrash />
         </button>
 
         <button
-          className={`h-6 w-6 xl:col-start-11 xl:row-start-1 xl:justify-self-end ${
-            isSelected ? 'text-yellow-500' : 'text-gray-500'
-          } hover:text-yellow-600`}
+          className={clsx(
+            'h-6 w-6 hover:text-yellow-600 xl:col-start-11 xl:row-start-1 xl:justify-self-end',
+            isSelected ? 'text-yellow-500' : 'text-gray-500',
+          )}
           title="megjelölés"
           type="submit"
           name="mark"

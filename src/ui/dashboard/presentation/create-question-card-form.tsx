@@ -19,7 +19,7 @@ export function CreateQuestionCardForm({
   const ref = useRef<HTMLFormElement>(null);
 
   return (
-    <Card className="bg-white shadow-md">
+    <Card className="h-full bg-white shadow-md">
       <form
         className="h-full"
         ref={ref}

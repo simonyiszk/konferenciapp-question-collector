@@ -65,7 +65,7 @@ export function QuestionCard({ question }: { question: Question }) {
         </button>
 
         <p className="col-span-3 row-start-2 justify-self-start  text-sm text-gray-500 xl:col-span-4 xl:col-start-9 xl:justify-self-end">
-          <TimeAgo time={question.createdAt} tick={1000} />
+          <TimeAgo time={question.createdAt} autoUpdate />
         </p>
       </form>
 

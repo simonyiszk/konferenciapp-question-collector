@@ -3,18 +3,7 @@ import { useRouter } from 'next/navigation';
 import { SessionProvider } from 'next-auth/react';
 import { type ReactNode, useEffect, useState } from 'react';
 
-export function DisableSSR({
-  children,
-  fallback = null,
-}: {
-  children: ReactNode;
-  fallback?: ReactNode | null;
-}) {
-  const [ssr, setSSR] = useState(true);
-  useEffect(() => setSSR(false), []);
-
-  return ssr ? fallback : children;
-}
+import { useInterval } from '@/lib/hooks';
 
 export function ClipBoard({
   content,
@@ -30,27 +19,25 @@ export function ClipBoard({
   );
 }
 
-export function PeriodicReloader({
-  interval,
-  children,
-}: {
-  interval: number;
-  children: ReactNode;
-}) {
-  const router = useRouter();
-  const [tick, setTick] = useState(0);
+export function PeriodicReloader({ interval }: { interval: number }) {
+  const STEPS = 5;
 
-  useEffect(() => {
-    const t = setTimeout(() => {
-      console.log('Hello', t, new Date());
-      setTick((t) => t + 1);
-      router.refresh();
-    }, interval);
-    () => clearTimeout(t);
-  }, [tick]);
-  return children;
+  const router = useRouter();
+  const [tick, setTick] = useState(STEPS);
+
+  useInterval(() => setTick((t) => t - 1), interval / STEPS);
+
+  const href = typeof window !== 'undefined' ? window.location.href : '';
+  useEffect(() => setTick(STEPS), [href]);
+
+  if (tick === 0) {
+    setTick(STEPS);
+    router.refresh();
+  }
+
+  return null;
 }
 
 export function WithSession({ children }: { children: ReactNode }) {
-  return <SessionProvider>{children}</SessionProvider>;
+  return <SessionProvider session={null}>{children}</SessionProvider>;
 }

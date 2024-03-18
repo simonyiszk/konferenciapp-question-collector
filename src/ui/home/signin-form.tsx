@@ -2,18 +2,13 @@
 
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
 
 import { PageRoot } from '@/types/route';
 
 import { ButtonWithArrowRight } from '../button-with-arrow-right';
 
 export function SignInForm() {
-  const { data: session, status, update: updateSession } = useSession();
-  useEffect(() => {
-    updateSession();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { data: session, status } = useSession();
 
   async function onClick() {
     try {

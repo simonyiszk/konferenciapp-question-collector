@@ -1,33 +1,27 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { DisableSSR } from '@/components/util';
+import { useSSR, useTime } from '@/lib/hooks';
 
 export interface TimeAgoProps extends React.HTMLAttributes<HTMLSpanElement> {
   time: Date;
-  tick?: number;
+  autoUpdate?: boolean;
 }
 
-export function TimeAgo({ time, tick, ...rest }: TimeAgoProps) {
-  const [_tick, setTick] = React.useState(0);
-  useEffect(() => {
-    console.log('TimeAgo');
-    if (!tick) return;
-    const interval = setInterval(() => setTick((tick) => tick + 1), tick);
-    return () => clearInterval(interval);
-  });
+export function TimeAgo({ time, autoUpdate, ...rest }: TimeAgoProps) {
+  const ssr = useSSR();
+  const now = useTime(autoUpdate);
 
-  const { human } = timeDifference({ target: time, now: new Date() });
+  let content = ssr ? '' : timeDifference({ target: time, now }).human;
 
   return (
-    <DisableSSR fallback={'-'}>
-      <span title={toLocale(time)} {...rest}>
-        {human}
-      </span>
-    </DisableSSR>
+    <span title={toLocale(time)} {...rest}>
+      {content}
+    </span>
   );
 }
+
 export function toLocale(time: Date): string | undefined {
   return time.toLocaleDateString() + ' ' + time.toLocaleTimeString();
 }

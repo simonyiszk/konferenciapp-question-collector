@@ -11,7 +11,8 @@ export default function RootLayout({
   return (
     <html lang="hu">
       <body className={`${inter.className} antialiased`}>
-        <PeriodicReloader interval={15_000}>{children}</PeriodicReloader>
+        <PeriodicReloader interval={15_000} />
+        {children}
       </body>
     </html>
   );

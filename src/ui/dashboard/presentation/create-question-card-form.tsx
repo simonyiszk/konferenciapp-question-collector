@@ -42,7 +42,14 @@ export function CreateQuestionCardForm({
             />
           </CardContent>
           <CardFooter className="flex min-h-fit flex-col items-stretch justify-between space-y-4 md:flex-row md:space-y-0">
-            <Button className="h-11" variant="outline">
+            <Button
+              className="h-11"
+              variant="outline"
+              onClick={(e) => {
+                e.preventDefault();
+                ref.current?.reset();
+              }}
+            >
               Törlés
             </Button>
             <Button className="h-11" type="submit">

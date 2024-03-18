@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { MainGridLayout } from '@/ui/grid-layout';
 
 export function ReadonlyQuestionGrid({ questions }: { questions: Question[] }) {
   const firstRender = useRef(true);
@@ -21,7 +22,7 @@ export function ReadonlyQuestionGrid({ questions }: { questions: Question[] }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="mt-6 grid grid-cols-1 gap-8 xl:grid-cols-2 ">
+    <MainGridLayout>
       {questions.map((q) => (
         <ReadonlyCard
           key={q.id}
@@ -29,7 +30,7 @@ export function ReadonlyQuestionGrid({ questions }: { questions: Question[] }) {
           animate={!firstRender.current && !notAnimated.includes(q.id)}
         />
       ))}
-    </div>
+    </MainGridLayout>
   );
 }
 

@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { CreateQuestionCardForm } from '@/ui/dashboard/presentation/create-question-card-form';
 import { QuestionFilterSwitch } from '@/ui/dashboard/presentation/question-filter-switch';
 import { QuestionCard } from '@/ui/dashboard/question-card';
+import { MainGridLayout } from '@/ui/grid-layout';
 
 export function PresentationGrid({
   questions,
@@ -39,12 +40,12 @@ export function PresentationGrid({
         onOptionChange={setFilter}
       />
 
-      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <MainGridLayout>
         <CreateQuestionCardForm presentationId={presentation.id} />
         {qs.map((question) => (
           <QuestionCard key={question.id} question={question} />
         ))}
-      </div>
+      </MainGridLayout>
     </>
   );
 }

@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     where: { id: params.id },
     include: {
       questions: {
-        orderBy: { createdAt: 'asc' },
+        orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
         include: { user: true },
       },
     },

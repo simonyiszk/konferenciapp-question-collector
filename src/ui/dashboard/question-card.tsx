@@ -68,7 +68,9 @@ export function QuestionCard({ question }: { question: Question }) {
 
       <hr />
 
-      <p className="p-6 pt-3 text-justify text-gray-700">{question.content}</p>
+      <p className="max-h-60 overflow-y-auto p-6 pt-3 text-justify text-gray-700">
+        {question.content}
+      </p>
     </div>
   );
 }

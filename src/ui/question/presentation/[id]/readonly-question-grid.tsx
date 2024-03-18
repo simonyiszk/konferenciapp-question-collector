@@ -47,7 +47,7 @@ function ReadonlyCard({
       }`}
     >
       <CardHeader className="py-5 text-lg font-bold">Kérdés</CardHeader>
-      <CardContent className="break-normal text-justify">
+      <CardContent className="max-h-60 overflow-y-auto break-normal text-justify">
         {question.content}
       </CardContent>
     </Card>

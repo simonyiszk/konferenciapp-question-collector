@@ -1,11 +1,22 @@
+import clsx from 'clsx';
+
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+
 // Loading animation
-const shimmer =
+export const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
 
 export function CardSkeleton() {
   return (
     <div
-      className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-100 p-2 shadow-sm`}
+      className={`${shimmer} relative min-h-full overflow-hidden rounded-xl bg-gray-100 p-2 shadow-sm`}
     >
       <div className="flex p-4">
         <div className="h-5 w-5 rounded-md bg-gray-200" />
@@ -18,13 +29,60 @@ export function CardSkeleton() {
   );
 }
 
-export function CardsSkeleton() {
+export function CreateQuestionCardSkeleton() {
+  return (
+    <Card className={(cn(shimmer), 'bg-gray-100 shadow-md')}>
+      <CardHeader>
+        <CardTitle>
+          <div className="w-15 h-10 rounded-md bg-gray-200" />
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex-1">
+        <div className="box-border h-full min-h-[6rem] rounded-md bg-gray-200" />
+      </CardContent>
+      <CardFooter className="flex min-h-fit flex-col items-stretch justify-between space-y-4 md:flex-row md:space-y-0">
+        <div className="h-11 w-20 bg-gray-200 text-transparent">Törlés</div>
+        <div className="w-35 h-11 bg-gray-200 text-transparent">Elküldés</div>
+      </CardFooter>
+    </Card>
+  );
+  return (
+    <div
+      className={`${shimmer} relative flex min-h-[250px] items-center overflow-hidden rounded-xl bg-gray-100 p-2 shadow-sm`}
+    >
+      <div className="flex p-4">
+        <div className="h-10 w-10 rounded-md bg-gray-200" />
+        <div className="ml-2 h-12 w-32 rounded-md bg-gray-200 text-sm font-medium" />
+      </div>
+      <div className="flex items-center justify-center truncate rounded-xl bg-white px-4 py-8">
+        <div className="h-14 w-40 rounded-md bg-gray-200" />
+      </div>
+    </div>
+  );
+}
+
+export function QuestionCardSkeleton() {
+  return (
+    <div
+      className={`${shimmer} relative flex min-h-[230px] items-center overflow-hidden rounded-xl bg-gray-100 p-2 shadow-sm`}
+    >
+      <div className="flex p-4">
+        <div className="h-10 w-10 rounded-md bg-gray-200" />
+        <div className="ml-2 h-12 w-32 rounded-md bg-gray-200 text-sm font-medium" />
+      </div>
+      <div className="flex items-center justify-center truncate rounded-xl bg-white px-4 py-8">
+        <div className="h-14 w-40 rounded-md bg-gray-200" />
+      </div>
+    </div>
+  );
+}
+
+export function CardsSkeleton({ amount }: { amount: number }) {
   return (
     <>
-      <CardSkeleton />
-      <CardSkeleton />
-      <CardSkeleton />
-      <CardSkeleton />
+      {new Array(amount).fill(null).map((_, i) => (
+        <CardSkeleton key={i} />
+      ))}
     </>
   );
 }
@@ -100,6 +158,26 @@ export function DashboardSkeleton() {
         <LatestInvoicesSkeleton />
       </div>
     </>
+  );
+}
+
+export function FilterSwitchSkeleton({ options }: { options: string[] }) {
+  return (
+    <div
+      className={clsx(
+        shimmer,
+        'relative w-fit space-x-2 rounded-lg bg-slate-50 p-1 shadow-md shadow-slate-500/10',
+      )}
+    >
+      {options.map((o, i) => (
+        <button
+          key={o + i}
+          className={cn('rounded-md bg-gray-200 px-4 py-2 text-transparent')}
+        >
+          {o}
+        </button>
+      ))}
+    </div>
   );
 }
 

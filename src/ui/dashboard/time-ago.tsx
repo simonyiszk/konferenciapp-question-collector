@@ -12,6 +12,7 @@ export interface TimeAgoProps extends React.HTMLAttributes<HTMLSpanElement> {
 export function TimeAgo({ time, tick, ...rest }: TimeAgoProps) {
   const [_tick, setTick] = React.useState(0);
   useEffect(() => {
+    console.log('TimeAgo');
     if (!tick) return;
     const interval = setInterval(() => setTick((tick) => tick + 1), tick);
     return () => clearInterval(interval);

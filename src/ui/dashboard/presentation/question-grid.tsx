@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { CreateQuestionCardForm } from '@/ui/dashboard/presentation/create-question-card-form';
 import { QuestionFilterSwitch } from '@/ui/dashboard/presentation/question-filter-switch';
 import { QuestionCard } from '@/ui/dashboard/question-card';
+import { ErrorBoundary } from '@/ui/error-boundary';
 import { MainGridLayout } from '@/ui/grid-layout';
 
 export function PresentationGrid({
@@ -41,9 +42,13 @@ export function PresentationGrid({
       />
 
       <MainGridLayout>
-        <CreateQuestionCardForm presentationId={presentation.id} />
+        <ErrorBoundary>
+          <CreateQuestionCardForm presentationId={presentation.id} />
+        </ErrorBoundary>
         {qs.map((question) => (
-          <QuestionCard key={question.id} question={question} />
+          <ErrorBoundary key={question.id}>
+            <QuestionCard question={question} />
+          </ErrorBoundary>
         ))}
       </MainGridLayout>
     </>

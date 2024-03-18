@@ -3,6 +3,7 @@
 import { QuestionState } from '@prisma/client';
 import { validate } from 'class-validator';
 import { revalidatePath } from 'next/cache';
+import { getServerSession } from 'next-auth';
 
 import { PresentationQuestionService } from '@/app/api/presentation/[id]/question/service';
 import { prisma } from '@/server-lib/prisma';
@@ -11,6 +12,9 @@ import { PresentationDto } from '@/types/CMSCH';
 const QUESTION_MARKS = Object.values(QuestionState);
 
 export async function setQuestionMark(formData: FormData) {
+  const session = await getServerSession();
+  if (!session?.user) throw new Error('Unauthorized');
+
   const rawId = formData.get('id')?.toString();
   const mark = formData.get('mark')?.toString();
 
@@ -32,7 +36,7 @@ export async function setQuestionMark(formData: FormData) {
     where: { id },
   });
 
-  revalidatePath('/dashboard');
+  revalidatePath('/');
 }
 
 export async function updatePresentations() {
@@ -66,12 +70,15 @@ export async function updatePresentations() {
       }),
     );
   await Promise.all(actions);
-  revalidatePath('/dashboard');
+  revalidatePath('/');
 }
 
 const questionService = new PresentationQuestionService();
 
 export async function createSelectedQuestion(formData: FormData) {
+  const session = await getServerSession();
+  if (!session?.user) throw new Error('Unauthorized');
+
   const { errors, data } = await questionService.validate(
     formData.get('presentationId')?.toString() || '',
     {
@@ -88,5 +95,5 @@ export async function createSelectedQuestion(formData: FormData) {
     ...data,
     selected: true,
   });
-  revalidatePath('/dashboard');
+  revalidatePath('/');
 }

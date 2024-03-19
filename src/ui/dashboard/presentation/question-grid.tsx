@@ -20,12 +20,21 @@ export function PresentationGrid({
   presentation: Presentation;
 }) {
   const [filter, setFilter] = useState<QuestionState>(QuestionState.NONE);
-  const qs = questions.filter(
-    (q) => filter === QuestionState.NONE || q.mark === filter,
-  );
 
-  if (filter !== QuestionState.NONE)
+  let qs = questions.filter((q) => {
+    switch (filter) {
+      case QuestionState.NONE:
+        return q.mark !== QuestionState.HIDDEN;
+      case QuestionState.HIDDEN:
+      case QuestionState.SELECTED:
+        return q.mark === filter;
+    }
+  });
+
+  // If marked: sort by time of marking
+  if (filter !== QuestionState.NONE) {
     qs.sort((a, b) => a.updatedAt.getTime() - b.updatedAt.getTime());
+  }
 
   if (!presentation) return <h1>Error no presentation set in this context</h1>;
 

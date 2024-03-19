@@ -12,6 +12,18 @@ import { QuestionCard } from '@/ui/dashboard/question-card';
 import { ErrorBoundary } from '@/ui/error-boundary';
 import { MainGridLayout } from '@/ui/grid-layout';
 
+const FilterMapping: Record<
+  QuestionState,
+  (questions: Question[]) => Question[]
+> = {
+  [QuestionState.NONE]: (questions) =>
+    questions.filter((q) => q.mark !== QuestionState.HIDDEN),
+  [QuestionState.SELECTED]: (questions) =>
+    questions.filter((q) => q.mark === QuestionState.SELECTED),
+  [QuestionState.HIDDEN]: (questions) =>
+    questions.filter((q) => q.mark === QuestionState.HIDDEN),
+};
+
 export function PresentationGrid({
   questions,
   presentation,
@@ -20,9 +32,7 @@ export function PresentationGrid({
   presentation: Presentation;
 }) {
   const [filter, setFilter] = useState<QuestionState>(QuestionState.NONE);
-  const qs = questions.filter(
-    (q) => filter === QuestionState.NONE || q.mark === filter,
-  );
+  const qs = FilterMapping[filter](questions);
 
   if (filter !== QuestionState.NONE)
     qs.sort((a, b) => a.updatedAt.getTime() - b.updatedAt.getTime());

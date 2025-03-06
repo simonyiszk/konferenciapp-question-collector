@@ -4,6 +4,7 @@ import { PageRoot } from '@/types/route';
 import { SideNav, SideNavLayout } from '@/ui/side-nav';
 
 export const dynamic = 'force-dynamic';
+const ALMOST_A_YEAR = 200 * 24 * 60 * 60 * 1000;
 
 export default async function Layout({
   children,
@@ -12,6 +13,7 @@ export default async function Layout({
 }) {
   const presentations = await prisma.presentation.findMany({
     orderBy: [{ start: 'asc' }, { room: 'asc' }],
+    where: { start: { gte: new Date(Date.now() - ALMOST_A_YEAR) } },
   });
   return (
     <WithSession>

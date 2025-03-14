@@ -1,7 +1,8 @@
 import '@/ui/global.css';
 
-import { PeriodicReloader } from '@/components/util';
 import { inter } from '@/ui/fonts';
+
+import { Providers } from './providers';
 
 export default function RootLayout({
   children,
@@ -11,8 +12,7 @@ export default function RootLayout({
   return (
     <html lang="hu">
       <body className={`${inter.className} antialiased`}>
-        <PeriodicReloader interval={15_000} />
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

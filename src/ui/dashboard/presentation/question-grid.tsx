@@ -42,9 +42,9 @@ export function PresentationGrid({
     <>
       <QuestionFilterSwitch
         options={[
-          { label: 'Összes', value: QuestionState.NONE },
+          { label: 'Beérkezett', value: QuestionState.NONE },
           { label: 'Megjelölt', value: QuestionState.SELECTED },
-          { label: 'Elrejtett', value: QuestionState.HIDDEN },
+          { label: 'Törölt', value: QuestionState.HIDDEN },
         ]}
         currentOption={filter}
         onOptionChange={setFilter}

@@ -9,7 +9,7 @@ import { PresentationQuestionService } from './service';
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get('userid');
@@ -18,7 +18,7 @@ export async function GET(
 
   try {
     const questions = await prisma.question.findMany({
-      where: { presentationId: params.id, userId },
+      where: { presentationId: (await params).id, userId },
     });
     return OkResponse(questions);
   } catch (e) {
@@ -31,9 +31,12 @@ const service = new PresentationQuestionService();
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const { data, errors } = await service.validate(params.id, await req.json());
+  const { data, errors } = await service.validate(
+    (await params).id,
+    await req.json(),
+  );
   if (errors || !data) return BadRequestResponse(JSON.stringify(errors));
   return service.create(data);
 }

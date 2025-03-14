@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -16,16 +17,18 @@ export function CreateQuestionCardForm({
 }: {
   presentationId: string;
 }) {
-  const ref = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const tanstack = useQueryClient();
 
   return (
     <Card className="h-full bg-white shadow-md">
       <form
         className="h-full"
-        ref={ref}
+        ref={formRef}
         action={async (formData) => {
           await createSelectedQuestion(formData);
-          ref.current?.reset();
+          await tanstack.refetchQueries();
+          formRef.current?.reset();
         }}
       >
         <input type="hidden" name="presentationId" value={presentationId} />
@@ -47,7 +50,7 @@ export function CreateQuestionCardForm({
               variant="outline"
               onClick={(e) => {
                 e.preventDefault();
-                ref.current?.reset();
+                formRef.current?.reset();
               }}
             >
               Törlés

@@ -10,6 +10,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'konf-api.kir-dev.hu',
       },
+      {
+        protocol: 'https',
+        hostname: 'warp.sch.bme.hu',
+      },
     ],
   },
 };

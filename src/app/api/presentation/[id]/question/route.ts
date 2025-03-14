@@ -22,7 +22,7 @@ export async function GET(
     });
     return OkResponse(questions);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return InternalServerErrorResponse(JSON.stringify(e));
   }
 }

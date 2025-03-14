@@ -27,7 +27,7 @@ export class ErrorBoundary extends Component<
 
   override componentDidCatch(error: Error, errorInfo: unknown) {
     // You can also log the error to an error reporting service
-    console.log(error, errorInfo);
+    console.error(error, errorInfo);
   }
 
   override render() {

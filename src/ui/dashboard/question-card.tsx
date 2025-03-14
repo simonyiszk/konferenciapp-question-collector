@@ -35,7 +35,6 @@ export function QuestionCard({ question }: { question: Question }) {
           className="content xl:col-start-10 xl:row-start-1 xl:justify-self-end"
           action={async (formData) => {
             // First, call setQuestionMark to update the state
-            console.log({ formData });
             await setQuestionMark(formData);
 
             // Then refresh the page to ensure changes are loaded
@@ -66,7 +65,6 @@ export function QuestionCard({ question }: { question: Question }) {
           className="content xl:col-start-11 xl:row-start-1 xl:justify-self-end"
           action={async (formData) => {
             // First, call setQuestionMark to update the state
-            console.log({ formData });
             await setQuestionMark(formData);
 
             // Then refresh the page to ensure changes are loaded

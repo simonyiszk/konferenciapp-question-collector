@@ -1,4 +1,6 @@
+'use client';
 import { Question, QuestionState } from '@prisma/client';
+import { useQueryClient } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { FiClipboard, FiStar, FiTrash, FiUser } from 'react-icons/fi';
 
@@ -9,14 +11,11 @@ import { TimeAgo } from '@/ui/dashboard/time-ago';
 export function QuestionCard({ question }: { question: Question }) {
   const isSelected = question.mark === QuestionState.SELECTED;
   const isHidden = question.mark === QuestionState.HIDDEN;
+  const tanstack = useQueryClient();
 
   return (
     <div className="rounded-lg bg-white shadow-md">
-      <form
-        action={setQuestionMark}
-        className="grid grid-cols-8 grid-rows-2 items-center justify-items-center gap-y-2 p-6 pb-3 xl:grid-cols-12"
-      >
-        <input className="hidden" type="hidden" name="id" value={question.id} />
+      <div className="grid grid-cols-8 grid-rows-2 items-center justify-items-center gap-y-2 p-6 pb-3 xl:grid-cols-12">
         <FiUser className="row-start-1 h-6 w-6 justify-self-start" />
 
         <p
@@ -32,42 +31,68 @@ export function QuestionCard({ question }: { question: Question }) {
           </ClipBoard>
         </button>
 
-        <span className="col-start-6 h-6 text-gray-500 hover:text-red-400 xl:col-span-6 xl:col-start-1 xl:w-28 xl:justify-self-start">
-          {/* placeholder for the removed blacklist button*/}
-        </span>
+        <form
+          className="content xl:col-start-10 xl:row-start-1 xl:justify-self-end"
+          action={async (formData) => {
+            // First, call setQuestionMark to update the state
+            await setQuestionMark(formData);
 
-        <button
-          title="elrejtés"
-          type="submit"
-          name="mark"
-          value={isHidden ? QuestionState.NONE : QuestionState.HIDDEN}
-          className={clsx(
-            'h-6 w-6 xl:col-start-10 xl:row-start-1 xl:justify-self-end',
-            isHidden
-              ? 'text-red-500 hover:text-gray-700'
-              : 'text-gray-500 hover:text-red-700',
-          )}
+            // Then refresh the page to ensure changes are loaded
+            await tanstack.refetchQueries();
+          }}
         >
-          <FiTrash />
-        </button>
+          <input type="hidden" name="id" value={question.id} />
+          <input
+            type="hidden"
+            name="mark"
+            value={isHidden ? QuestionState.NONE : QuestionState.HIDDEN}
+          />
+          <button
+            title="elrejtés"
+            type="submit"
+            className={clsx(
+              'h-6 w-6',
+              isHidden
+                ? 'text-red-500 hover:text-gray-700'
+                : 'text-gray-500 hover:text-red-700',
+            )}
+          >
+            <FiTrash />
+          </button>
+        </form>
 
-        <button
-          className={clsx(
-            'h-6 w-6 hover:text-yellow-600 xl:col-start-11 xl:row-start-1 xl:justify-self-end',
-            isSelected ? 'text-yellow-500' : 'text-gray-500',
-          )}
-          title="megjelölés"
-          type="submit"
-          name="mark"
-          value={isSelected ? QuestionState.NONE : QuestionState.SELECTED}
+        <form
+          className="content xl:col-start-11 xl:row-start-1 xl:justify-self-end"
+          action={async (formData) => {
+            // First, call setQuestionMark to update the state
+            await setQuestionMark(formData);
+
+            // Then refresh the page to ensure changes are loaded
+            await tanstack.refetchQueries();
+          }}
         >
-          <FiStar />
-        </button>
+          <input type="hidden" name="id" value={question.id} />
+          <input
+            type="hidden"
+            name="mark"
+            value={isSelected ? QuestionState.NONE : QuestionState.SELECTED}
+          />
+          <button
+            className={clsx(
+              'h-6 w-6 hover:text-yellow-600',
+              isSelected ? 'text-yellow-500' : 'text-gray-500',
+            )}
+            title="megjelölés"
+            type="submit"
+          >
+            <FiStar />
+          </button>
+        </form>
 
         <p className="col-span-3 row-start-2 justify-self-start  text-sm text-gray-500 xl:col-span-4 xl:col-start-9 xl:justify-self-end">
           <TimeAgo time={question.createdAt} autoUpdate />
         </p>
-      </form>
+      </div>
 
       <hr />
 

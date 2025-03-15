@@ -66,8 +66,8 @@ async function main() {
           faker.number.int({ min: 0, max: 2 }) === 0
             ? QuestionState.SELECTED
             : faker.number.int({ min: 0, max: 2 }) === 0
-            ? QuestionState.HIDDEN
-            : QuestionState.NONE;
+              ? QuestionState.HIDDEN
+              : QuestionState.NONE;
 
         questions.push({
           content: faker.lorem.sentence({ min: 1, max: 30 }),

@@ -34,7 +34,7 @@ export class PresentationQuestionService {
       });
       return OkResponse(question);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return InternalServerErrorResponse(JSON.stringify(e));
     }
   }
@@ -55,7 +55,7 @@ export class PresentationQuestionService {
       });
       return OkResponse(questions);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return InternalServerErrorResponse(JSON.stringify(e));
     }
   }

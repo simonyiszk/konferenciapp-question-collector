@@ -1,13 +1,13 @@
 import { WithSession } from '@/components/util';
-import { prisma } from '@/server-lib/prisma';
+import { getAllPresentations } from '@/server-lib/actions';
 import { PageRoot } from '@/types/route';
 import { SignInForm } from '@/ui/home/signin-form';
 import { PresentationWidgets } from '@/ui/presentation-widgets';
 
+export const revalidate = 3600;
+
 export default async function Page() {
-  const presentations = await prisma.presentation.findMany({
-    orderBy: [{ start: 'asc' }, { room: 'asc' }],
-  });
+  const presentations = await getAllPresentations();
 
   const pageRoot = PageRoot.readonly;
 

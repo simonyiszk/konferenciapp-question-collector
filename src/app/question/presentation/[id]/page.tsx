@@ -1,30 +1,28 @@
-import { QuestionState } from '@prisma/client';
+import { notFound } from 'next/navigation';
 import React from 'react';
 import { FiInbox } from 'react-icons/fi';
 
 import { isPresentationCurrent } from '@/lib/presentation.utils';
-import { prisma } from '@/server-lib/prisma';
+import { getSelectedPresentationQuestions } from '@/server-lib/actions';
 import { TimeCard } from '@/ui/dashboard/presentation/time-card';
 import { StatsCard } from '@/ui/dashboard/stats-card';
-import { ReadonlyQuestionGrid } from '@/ui/question/presentation/[id]/readonly-question-grid';
+import QuestionList from '@/ui/question/presentation/[id]/QuestionList';
 
-export default async function Page({ params }: { params: { id: string } }) {
-  if (!params.id) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const presentationId = (await params).id;
+  if (!presentationId) {
     throw new Error('Invalid presentation id');
   }
-  const result = await prisma.presentation.findUnique({
-    where: { id: params.id },
-    include: {
-      questions: {
-        orderBy: [{ updatedAt: 'asc' }, { createdAt: 'asc' }],
-        where: { mark: QuestionState.SELECTED },
-      },
-    },
-  });
 
-  if (!result) throw new Error('Invalid presentation id');
+  const presentation = await getSelectedPresentationQuestions(presentationId);
 
-  const { questions, ...presentation } = result;
+  if (!presentation) {
+    notFound();
+  }
 
   return (
     <main className="space-y-4 p-10">
@@ -42,11 +40,14 @@ export default async function Page({ params }: { params: { id: string } }) {
       <StatCards
         start={presentation.start}
         end={presentation.end}
-        noQuestions={questions.length}
+        noQuestions={presentation.questions.length}
       />
       <span className="mb-4 mt-4 block h-1 w-32 rounded-lg bg-gray-300" />
 
-      <ReadonlyQuestionGrid questions={questions} />
+      <QuestionList
+        presentationId={presentationId}
+        initialData={presentation}
+      />
     </main>
   );
 }

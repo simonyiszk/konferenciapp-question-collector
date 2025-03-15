@@ -1,18 +1,15 @@
-import { Button } from '@/components/ui/button';
-import { updatePresentations } from '@/server-lib/actions';
-import { prisma } from '@/server-lib/prisma';
+import { getAllPresentations } from '@/server-lib/actions';
 import { PageRoot } from '@/types/route';
+import { UpdatePresentations } from '@/ui/dashboard/presentation/update-presentations';
 import { ErrorBoundary } from '@/ui/error-boundary';
 import { PresentationWidgets } from '@/ui/presentation-widgets';
 import { SignOutButton } from '@/ui/sign-out-button';
 import { Username } from '@/ui/username-text';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export default async function Page() {
-  const presentations = await prisma.presentation.findMany({
-    orderBy: [{ start: 'asc' }, { room: 'asc' }],
-  });
+  const presentations = await getAllPresentations();
 
   const pageRoot = PageRoot.admin;
 
@@ -23,9 +20,7 @@ export default async function Page() {
       </h1>
       <div className="flex flex-col space-y-2">
         <ErrorBoundary>
-          <form action={updatePresentations}>
-            <Button type="submit">Előadások frissítése</Button>
-          </form>
+          <UpdatePresentations />
         </ErrorBoundary>
         <div>
           <ErrorBoundary>

@@ -98,9 +98,9 @@ export async function updatePresentations() {
 
   const presentationRaw: PresentationDto[] = res['presentations'];
 
-  const presentations = presentationRaw.map((p) =>
-    PresentationDto.fromPlain(p),
-  );
+  const presentations = presentationRaw
+    .map((p) => PresentationDto.fromPlain(p))
+    .filter((p) => p.presenter !== null);
 
   const errorsList = await Promise.all(presentations.map((p) => validate(p)));
   const errors = errorsList

@@ -9,7 +9,8 @@ export class PresenterDto {
 
   @IsString()
   pictureUrl?: string;
-  static fromPlain(plain: PresenterDto) {
+  static fromPlain(plain: PresenterDto | null) {
+    if (!plain) return null;
     return plainToInstance(PresenterDto, plain);
   }
 }
@@ -26,10 +27,10 @@ export class PresentationDto {
   @IsString()
   @IsNotEmpty()
   language!: string;
-  @IsDateString()
+  @IsString()
   @IsNotEmpty()
   startTime!: string;
-  @IsDateString()
+  @IsString()
   @IsNotEmpty()
   endTime!: string;
   @IsString()
@@ -38,7 +39,7 @@ export class PresentationDto {
   @IsString()
   @IsNotEmpty()
   questionsUrl!: string;
-  presenter!: PresenterDto;
+  presenter!: PresenterDto | null;
 
   static fromPlain(plain: PresentationDto) {
     return plainToInstance(PresentationDto, {
@@ -47,15 +48,23 @@ export class PresentationDto {
     });
   }
 
+  private parseTime(time: string) {
+    if (time.match(/^\d{2}:\d{2}$/)) {
+      const today = new Date().toISOString().split('T')[0];
+      return new Date(`${today}T${time}:00`);
+    }
+    return new Date(time);
+  }
+
   toPrismaTable(): Presentation {
     return {
       id: this.slug,
-      start: new Date(this.startTime),
-      end: new Date(this.endTime),
+      start: this.parseTime(this.startTime),
+      end: this.parseTime(this.endTime),
       room: this.room,
       title: this.title,
-      presenterFullName: this.presenter.name,
-      presenterAvatar: this.presenter.pictureUrl ?? null,
+      presenterFullName: this.presenter!.name,
+      presenterAvatar: this.presenter?.pictureUrl ?? null,
     };
   }
 }

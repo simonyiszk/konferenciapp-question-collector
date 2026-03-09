@@ -1,6 +1,6 @@
 import { Presentation } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
-import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class PresenterDto {
   @IsString()

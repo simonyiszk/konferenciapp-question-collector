@@ -17,11 +17,17 @@ type PresentationWithQuestions = Awaited<
  * Base hook for presentation queries
  * This is an internal hook used by the exported hooks
  */
-const usePresentationQuery = (options: any) => {
+const usePresentationQuery = <
+  TData extends PresentationWithQuestions,
+>(options: {
+  queryKey: string[];
+  queryFn: () => Promise<TData>;
+  initialData?: TData;
+}) => {
   return useQuery({
     ...options,
     refetchInterval: (query) => {
-      const presentation = query.state.data as PresentationWithQuestions;
+      const presentation = query.state.data as TData;
       if (!presentation) return 15000;
 
       const now = new Date();

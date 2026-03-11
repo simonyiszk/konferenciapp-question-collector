@@ -112,13 +112,14 @@ export async function updatePresentations() {
       PresentationDto.fromPlain(p),
     );
 
+    // Only log validation errors, don't throw, to be resilient in production
     const errorsList = await Promise.all(presentations.map((p) => validate(p)));
-    const errors = errorsList
-      .filter((errors) => errors.length > 0)
-      .reduce((errors, list) => [...list, ...errors], []);
-    if (errors.length !== 0) {
-      console.error('Validation errors:', JSON.stringify(errors, null, 2));
-      throw new Error('Unexpected CMSCH response: ' + JSON.stringify(errors));
+    const allErrors = errorsList.flat();
+    if (allErrors.length > 0) {
+      console.warn(
+        'Some presentations failed validation:',
+        JSON.stringify(allErrors, null, 2),
+      );
     }
 
     const deleted = await prisma.presentation.deleteMany({

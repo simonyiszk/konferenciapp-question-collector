@@ -16,28 +16,20 @@ export class PresenterDto {
 }
 export class PresentationDto {
   @IsString()
-  @IsNotEmpty()
   slug!: string;
   @IsString()
-  @IsNotEmpty()
   title!: string;
   @IsString()
-  @IsNotEmpty()
   room!: string;
   @IsString()
-  @IsNotEmpty()
   language!: string;
   @IsString()
-  @IsNotEmpty()
   startTime!: string;
   @IsString()
-  @IsNotEmpty()
   endTime!: string;
   @IsString()
-  @IsNotEmpty()
   description!: string;
   @IsString()
-  @IsNotEmpty()
   questionsUrl!: string;
   presenter!: PresenterDto | null;
 

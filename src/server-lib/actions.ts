@@ -122,10 +122,25 @@ export async function updatePresentations() {
       );
     }
 
-    const deleted = await prisma.presentation.deleteMany({
+    // If onDelete: Cascade is not yet in the DB (migration not run in prod),
+    // we delete questions manually first to avoid foreign key errors.
+    const presentationsToDelete = await prisma.presentation.findMany({
       where: { id: { notIn: presentations.map((p) => p.slug) } },
+      select: { id: true },
     });
-    console.log(`Deleted ${deleted.count} old presentations`);
+
+    if (presentationsToDelete.length > 0) {
+      const ids = presentationsToDelete.map((p) => p.id);
+      await prisma.question.deleteMany({
+        where: { presentationId: { in: ids } },
+      });
+      const deleted = await prisma.presentation.deleteMany({
+        where: { id: { in: ids } },
+      });
+      console.log(
+        `Deleted ${deleted.count} old presentations (and their questions)`,
+      );
+    }
 
     const actions = presentations
       .map((p) => p.toPrismaTable())

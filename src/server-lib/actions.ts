@@ -90,42 +90,61 @@ export async function setQuestionMark(formData: FormData) {
 }
 
 export async function updatePresentations() {
-  const url = process.env['CMSCH_CONFERENCES_API'];
-  if (!url) {
-    throw new Error('CMSCH_CONFERENCES_API not defined');
-  }
-  const res = await fetch(url, { cache: 'no-cache' }).then((res) => res.json());
+  try {
+    const url = process.env['CMSCH_CONFERENCES_API'];
+    const confDate = process.env.NEXT_PUBLIC_CONFERENCE_DATE || '2026-03-24';
+    console.log(`Updating presentations from ${url} using date ${confDate}`);
 
-  const presentationRaw: PresentationDto[] = res['presentations'];
-
-  const presentations = presentationRaw.map((p) =>
-    PresentationDto.fromPlain(p),
-  );
-
-  const errorsList = await Promise.all(presentations.map((p) => validate(p)));
-  const errors = errorsList
-    .filter((errors) => errors.length === 0)
-    .reduce((errors, list) => [...list, ...errors], []);
-  if (errors.length !== 0) {
-    throw new Error('Unexpected CMSCH response: ' + JSON.stringify(errors));
-  }
-
-  const deleted = await prisma.presentation.deleteMany({
-    where: { id: { notIn: presentations.map((p) => p.slug) } },
-  });
-  console.log(`Deleted ${deleted.count} old presentations`);
-
-  const actions = presentations
-    .map((p) => p.toPrismaTable())
-    .map((p) =>
-      prisma.presentation.upsert({
-        create: p,
-        update: p,
-        where: { id: p.id },
-      }),
+    if (!url) {
+      throw new Error('CMSCH_CONFERENCES_API not defined');
+    }
+    const res = await fetch(url, { cache: 'no-cache' }).then((res) =>
+      res.json(),
     );
-  await Promise.all(actions);
-  revalidatePath('/');
+
+    const presentationRaw: PresentationDto[] = res['presentations'];
+    if (!presentationRaw) {
+      throw new Error('No presentations found in API response');
+    }
+    console.log(`Received ${presentationRaw.length} presentations from API`);
+
+    const presentations = presentationRaw.map((p) =>
+      PresentationDto.fromPlain(p),
+    );
+
+    const errorsList = await Promise.all(presentations.map((p) => validate(p)));
+    const errors = errorsList
+      .filter((errors) => errors.length > 0)
+      .reduce((errors, list) => [...list, ...errors], []);
+    if (errors.length !== 0) {
+      console.error('Validation errors:', JSON.stringify(errors, null, 2));
+      throw new Error('Unexpected CMSCH response: ' + JSON.stringify(errors));
+    }
+
+    const deleted = await prisma.presentation.deleteMany({
+      where: { id: { notIn: presentations.map((p) => p.slug) } },
+    });
+    console.log(`Deleted ${deleted.count} old presentations`);
+
+    const actions = presentations
+      .map((p) => p.toPrismaTable())
+      .map((p) =>
+        prisma.presentation.upsert({
+          create: p,
+          update: p,
+          where: { id: p.id },
+        }),
+      );
+    await Promise.all(actions);
+    console.log('Upserted all presentations');
+
+    revalidatePath('/');
+    revalidatePath('/question');
+    revalidatePath('/dashboard');
+  } catch (e) {
+    console.error('Failed to update presentations:', e);
+    throw e;
+  }
 }
 
 const questionService = new PresentationQuestionService();

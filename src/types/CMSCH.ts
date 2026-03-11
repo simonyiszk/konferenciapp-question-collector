@@ -53,7 +53,21 @@ export class PresentationDto {
     if (time.match(/^\d{2}:\d{2}$/)) {
       return new Date(`${confDate}T${time}:00`);
     }
-    return new Date(time);
+    // If it's a full date, we still want to force the conference date from env
+    const date = new Date(time);
+    if (!isNaN(date.getTime())) {
+      const parts = confDate.split('-');
+      if (parts.length === 3) {
+        const year = parseInt(parts[0] || '2026', 10);
+        const month = parseInt(parts[1] || '03', 10);
+        const day = parseInt(parts[2] || '24', 10);
+        date.setFullYear(year);
+        date.setMonth(month - 1);
+        date.setDate(day);
+      }
+      return date;
+    }
+    return date;
   }
 
   toPrismaTable(): Presentation {

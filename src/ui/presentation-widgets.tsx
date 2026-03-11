@@ -12,8 +12,13 @@ export function PresentationWidgets({
   presentations: Presentation[];
   pageRoot: PageRoot;
 }) {
-  const currentPresentations = presentations.filter(isPresentationCurrent);
-  const upcomingPresentations = presentations
+  const filteredPresentations = presentations.filter(
+    (p) => p.presenterFullName !== 'Simonyi Konferencia',
+  );
+  const currentPresentations = filteredPresentations.filter(
+    isPresentationCurrent,
+  );
+  const upcomingPresentations = filteredPresentations
     .filter((p) => new Date() < p.start && !currentPresentations.includes(p))
     .slice(0, 4);
 

@@ -49,9 +49,9 @@ export class PresentationDto {
   }
 
   private parseTime(time: string) {
+    const confDate = process.env.EXPO_PUBLIC_CONFERENCE_DATE || '2026-03-24';
     if (time.match(/^\d{2}:\d{2}$/)) {
-      const today = new Date().toISOString().split('T')[0];
-      return new Date(`${today}T${time}:00`);
+      return new Date(`${confDate}T${time}:00`);
     }
     return new Date(time);
   }
@@ -63,7 +63,7 @@ export class PresentationDto {
       end: this.parseTime(this.endTime),
       room: this.room,
       title: this.title,
-      presenterFullName: this.presenter!.name,
+      presenterFullName: this.presenter?.name ?? 'Simonyi Konferencia',
       presenterAvatar: this.presenter?.pictureUrl ?? null,
     };
   }

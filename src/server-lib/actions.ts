@@ -98,9 +98,9 @@ export async function updatePresentations() {
 
   const presentationRaw: PresentationDto[] = res['presentations'];
 
-  const presentations = presentationRaw
-    .map((p) => PresentationDto.fromPlain(p))
-    .filter((p) => p.presenter !== null);
+  const presentations = presentationRaw.map((p) =>
+    PresentationDto.fromPlain(p),
+  );
 
   const errorsList = await Promise.all(presentations.map((p) => validate(p)));
   const errors = errorsList
@@ -109,6 +109,11 @@ export async function updatePresentations() {
   if (errors.length !== 0) {
     throw new Error('Unexpected CMSCH response: ' + JSON.stringify(errors));
   }
+
+  const deleted = await prisma.presentation.deleteMany({
+    where: { id: { notIn: presentations.map((p) => p.slug) } },
+  });
+  console.log(`Deleted ${deleted.count} old presentations`);
 
   const actions = presentations
     .map((p) => p.toPrismaTable())

@@ -16,7 +16,7 @@ datasource db {
 
 model Presentation {
   id                String     @id @default(uuid())
-  title             String     @unique
+  title             String
   start             DateTime
   end               DateTime
   room              String

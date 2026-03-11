@@ -33,7 +33,10 @@ export function PresentationGrid({
 
   // If marked: sort by time of marking
   if (filter !== QuestionState.NONE) {
-    qs.sort((a, b) => a.updatedAt.getTime() - b.updatedAt.getTime());
+    qs.sort(
+      (a, b) =>
+        new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime(),
+    );
   }
 
   if (!presentation) return <h1>Error no presentation set in this context</h1>;

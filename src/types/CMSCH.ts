@@ -49,7 +49,7 @@ export class PresentationDto {
   }
 
   private parseTime(time: string) {
-    const confDate = process.env.EXPO_PUBLIC_CONFERENCE_DATE || '2026-03-24';
+    const confDate = process.env.NEXT_PUBLIC_CONFERENCE_DATE || '2026-03-24';
     if (time.match(/^\d{2}:\d{2}$/)) {
       return new Date(`${confDate}T${time}:00`);
     }

@@ -5,7 +5,13 @@ import { useSSR, useTime } from '@/lib/hooks';
 import { StatsCard } from '@/ui/dashboard/stats-card';
 import { TimeAgo, toLocale } from '@/ui/dashboard/time-ago';
 
-export function TimeCard({ start, end }: { start: Date; end: Date }) {
+export function TimeCard({
+  start: startRaw,
+  end: endRaw,
+}: {
+  start: Date;
+  end: Date;
+}) {
   const ssr = useSSR();
   const now = useTime();
 
@@ -16,6 +22,9 @@ export function TimeCard({ start, end }: { start: Date; end: Date }) {
       </StatsCard>
     );
   }
+
+  const start = new Date(startRaw);
+  const end = new Date(endRaw);
 
   const before = now < start;
   const during = now < end;

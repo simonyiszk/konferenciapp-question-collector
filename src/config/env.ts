@@ -10,6 +10,6 @@ export const GOOGLE_CLIENT_SECRET = env
   .asString();
 export const NEXTAUTH_SECRET = env.get('NEXTAUTH_SECRET').required().asString();
 export const CONFERENCE_DATE = env
-  .get('EXPO_PUBLIC_CONFERENCE_DATE')
+  .get('NEXT_PUBLIC_CONFERENCE_DATE')
   .default('2026-03-24')
   .asString();

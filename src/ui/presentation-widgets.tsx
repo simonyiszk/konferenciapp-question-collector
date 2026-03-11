@@ -19,7 +19,10 @@ export function PresentationWidgets({
     isPresentationCurrent,
   );
   const upcomingPresentations = filteredPresentations
-    .filter((p) => new Date() < p.start && !currentPresentations.includes(p))
+    .filter(
+      (p) =>
+        new Date() < new Date(p.start) && !currentPresentations.includes(p),
+    )
     .slice(0, 4);
 
   const toWidget = (presentation: Presentation) => (
